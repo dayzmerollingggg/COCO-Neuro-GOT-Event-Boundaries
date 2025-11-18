@@ -1,0 +1,16 @@
+name: got_env
+channels:
+  - pytorch
+  - defaults
+dependencies:
+  - python=3.10
+  - pytorch
+  - torchvision
+  - torchaudio
+  - opencv
+  - pandas
+  - pip
+  - scikit-learn
+  - matplotlib
+  - seaborn
+  - natsort

@@ -1,0 +1,86 @@
+import cv2
+import numpy as np
+import os
+import librosa
+import subprocess  # For running ffmpeg commands
+import pandas as pd
+
+def compute_hsv_values(video_file):
+    cap = cv2.VideoCapture(video_file)
+    hue_vals, sat_vals, val_vals = [], [], []
+
+    while cap.isOpened():
+        ret, frame = cap.read()
+        if not ret:
+            break
+
+        hsv_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
+        h, s, v = cv2.split(hsv_frame)
+        
+        hue_vals.append(np.mean(h))
+        sat_vals.append(np.mean(s))
+        val_vals.append(np.mean(v))
+    
+    cap.release()
+    return np.mean(hue_vals), np.mean(sat_vals), np.mean(val_vals)
+
+def compute_motion_energy(video_file):
+    cap = cv2.VideoCapture(video_file)
+    prev_gray = None
+    motion_energy = []
+
+    while cap.isOpened():
+        ret, frame = cap.read()
+        if not ret:
+            break
+
+        gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+        if prev_gray is not None:
+            flow = cv2.calcOpticalFlowFarneback(prev_gray, gray, None, 0.5, 3, 15, 3, 5, 1.2, 0)
+            motion_energy.append(np.mean(flow**2))
+
+        prev_gray = gray
+
+    cap.release()
+    return np.mean(motion_energy) if motion_energy else 0
+
+def extract_audio(video_file, audio_file):
+    command = ['ffmpeg', '-i', video_file, '-vn', '-acodec', 'pcm_s16le', '-ar', '44100', '-ac', '2', audio_file]
+    subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+
+def compute_audio_features(audio_file):
+    y, sr = librosa.load(audio_file, sr=None)  # Load with original sample rate
+    amplitude = librosa.feature.rms(y=y).mean()
+    pitches, magnitudes = librosa.piptrack(y=y, sr=sr)
+    pitch = np.mean(pitches[magnitudes > np.median(magnitudes)])
+    return amplitude, pitch
+
+def process_clips(folder_path):
+    results = []
+    video_files = sorted([f for f in os.listdir(folder_path) if f.endswith(".mp4")])  # Get all .mp4 files
+    
+    for filename in video_files:
+        video_file = os.path.join(folder_path, filename)
+        print(f"Processing {filename}...")
+        
+        hsv = compute_hsv_values(video_file)
+        motion_energy = compute_motion_energy(video_file)
+        
+        audio_file = os.path.splitext(filename)[0] + ".wav"
+        extract_audio(video_file, audio_file)
+        audio_features = compute_audio_features(audio_file)
+        
+        results.append({
+            "filename": filename,
+            "hue": hsv[0], "saturation": hsv[1], "value": hsv[2],
+            "motion_energy": motion_energy,
+            "audio_amplitude": audio_features[0], "audio_pitch": audio_features[1]
+        })
+    
+    return results
+
+folder_path = r'C:\Users\rebga\Videos\COMPNEURO_CLIPS\MINICLIPS'
+results = process_clips(folder_path)
+df = pd.DataFrame(results)
+df.to_csv('video_features_all_clips.csv', index=False)
+print("Processing complete. Results saved to video_features_all_clips.csv")
