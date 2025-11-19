@@ -1,0 +1,8 @@
+social interaction (1) 2 or more living beings interacting
+Whether a person speaks in the scene (yes = 1, no = 0)
+Characters talking about themselves participating in communication (lines with I/you—‘You must be an army doctor’) (yes = 1, no = 0)
+Characters talking about other characters who are not part of communication (lines with he/she/they/other character’s names—‘Yeah, he’s always like that’) (yes = 1, no = 0)
+Characters talking about things (lines with it/object name—‘On the desk there is a number.) (yes = 1, no = 0)
+(Presence of inter-person actions = 1, absence = 0)
+valence (1-9)
+arousal (1-9)
