@@ -1,0 +1,372 @@
+clip 000
+person with cloak and sword
+how positive: 5
+current behavior positive: 5
+positive relationship: 0
+positive in past: 5
+positive in near future: 7
+positive in current situation: 2
+positive near past situation was: 3
+positive near future situation will be: 3
+
+clip 001
+person with cloak and sword
+how positive: 6
+current behavior positive: 6
+positive relationship: 0
+positive in past: 6
+positive in near future: 6
+positive in current situation: 3
+positive near past situation was: 3
+positive near future situation will be: 3
+
+clip 002
+person with cloak and sword
+how positive: 6
+current behavior positive: 6
+positive relationship: 0
+positive in past: 6
+positive in near future: 6
+positive in current situation: 3
+positive near past situation was: 3
+positive near future situation will be: 2
+
+clip 003
+person with cloak and sword
+how positive: 6
+current behavior positive: 6
+positive relationship: 0
+positive in past: 6
+positive in near future: 6
+positive in current situation: 2
+positive near past situation was: 3
+positive near future situation will be: 1
+
+clip 004
+person with cloak and sword
+how positive: 6
+current behavior positive: 6
+positive relationship: 0
+positive in past: 6
+positive in near future: 6
+positive in current situation: 1
+positive near past situation was: 1
+positive near future situation will be: 1
+
+clip 005
+person with cloak and sword
+how positive: 6
+current behavior positive: 6
+positive relationship: 0
+positive in past: 6
+positive in near future: 6
+positive in current situation: 1
+positive near past situation was: 1
+positive near future situation will be: 1
+
+clip 006
+person with cloak and sword
+how positive: 7
+current behavior positive: 8
+positive relationship: 8
+positive in past: 8
+positive in near future: 8
+positive in current situation: 1
+positive near past situation was: 1
+positive near future situation will be: 3
+mother with baby
+how positive: 5
+current behavior positive: 5
+positive relationship: 8
+positive in past: 5
+positive in near future: 5
+positive in current situation: 3
+positive near past situation was: 5
+positive near future situation will be: 5
+average positive character: 6
+average positive character behavior: 8
+average value relationship: 8
+average positive in past: 7
+average positive in near future: 7
+average positive in current situation: 2
+average positive near past situation was: 3
+average positive near future situation will be: 4
+
+clip 007
+person with cloak and sword
+how positive: 7
+current behavior positive: 8
+positive relationship: 8
+positive in past: 8
+positive in near future: 8
+positive in current situation: 3
+positive near past situation was: 3
+positive near future situation will be: 5
+mother with baby
+how positive: 5
+current behavior positive: 5
+positive relationship: 8
+positive in past: 5
+positive in near future: 5
+positive in current situation: 1
+positive near past situation was: 5
+positive near future situation will be: 3
+average positive character: 6
+average positive character behavior: 7
+average value relationship: 8
+average positive in past: 7
+average positive in near future: 7
+average positive in current situation: 2
+average positive near past situation was: 4
+average positive near future situation will be: 4
+
+clip 008
+person with cloak and sword
+how positive: 7
+current behavior positive: 9
+positive relationship: 8
+positive in past: 8
+positive in near future: 8
+positive in current situation: 5
+positive near past situation was: 3
+positive near future situation will be: 6
+mother with baby
+how positive: 5
+current behavior positive: 5
+positive relationship: 8
+positive in past: 5
+positive in near future: 5
+positive in current situation: 5
+positive near past situation was: 3
+positive near future situation will be: 6
+average positive character: 6
+average positive character behavior: 7
+average value relationship: 8
+average positive in past: 7
+average positive in near future: 7
+average positive in current situation: 5
+average positive near past situation was: 3
+average positive near future situation will be: 6
+
+clip 009
+person with cloak and sword
+how positive: 7
+current behavior positive: 9
+positive relationship: 8
+positive in past: 8
+positive in near future: 8
+positive in current situation: 7
+positive near past situation was: 3
+positive near future situation will be: 3
+mother with baby
+how positive: 5
+current behavior positive: 5
+positive relationship: 8
+positive in past: 5
+positive in near future: 5
+positive in current situation: 5
+positive near past situation was: 3
+positive near future situation will be: 7
+average positive character: 6
+average positive character behavior: 7
+average value relationship: 8
+average positive in past: 7
+average positive in near future: 7
+average positive in current situation: 6
+average positive near past situation was: 3
+average positive near future situation will be: 5
+
+clip 010
+person with cloak and sword
+how positive: 7
+current behavior positive: 9
+positive relationship: 8
+positive in past: 8
+positive in near future: 8
+positive in current situation: 7
+positive near past situation was: 5
+positive near future situation will be: 6
+mother with baby
+how positive: 5
+current behavior positive: 5
+positive relationship: 8
+positive in past: 5
+positive in near future: 5
+positive in current situation: 5
+positive near past situation was: 5
+positive near future situation will be: 7
+average positive character: 6
+average positive character behavior: 7
+average value relationship: 8
+average positive in past: 7
+average positive in near future: 7
+average positive in current situation: 6
+average positive near past situation was: 5
+average positive near future situation will be: 7
+
+clip 011
+person with cloak and sword
+how positive: 8
+current behavior positive: 7
+positive relationship: 8
+positive in past: 8
+positive in near future: 8
+positive in current situation: 7
+positive near past situation was: 5
+positive near future situation will be: 8
+mother with baby
+how positive: 5
+current behavior positive: 5
+positive relationship: 8
+positive in past: 5
+positive in near future: 5
+positive in current situation: 5
+positive near past situation was: 5
+positive near future situation will be: 8
+average positive character: 7
+average positive character behavior: 7
+average value relationship: 8
+average positive in past: 7
+average positive in near future: 7
+average positive in current situation: 6
+average positive near past situation was: 5
+average positive near future situation will be: 8
+
+clip 012
+person with cloak and sword
+how positive: 8
+current behavior positive: 7
+positive relationship: 8
+positive in past: 8
+positive in near future: 8
+positive in current situation: 7
+positive near past situation was: 5
+positive near future situation will be: 8
+mother with baby
+how positive: 5
+current behavior positive: 5
+positive relationship: 8
+positive in past: 5
+positive in near future: 5
+positive in current situation: 5
+positive near past situation was: 5
+positive near future situation will be: 8
+average positive character: 7
+average positive character behavior: 7
+average value relationship: 8
+average positive in past: 7
+average positive in near future: 7
+average positive in current situation: 6
+average positive near past situation was: 5
+average positive near future situation will be: 8
+
+clip 013
+man with beard
+how positive: 5
+current behavior positive: 6
+positive relationship: 9
+positive in past: 5
+positive in near future: 5
+positive in current situation: 7
+positive near past situation was: 7
+positive near future situation will be: 7
+youngerwoman with dark hair
+how positive: 5
+current behavior positive: 6
+positive relationship: 9
+positive in past: 5
+positive in near future: 5
+positive in current situation: 7
+positive near past situation was: 7
+positive near future situation will be: 7
+average positive character: 5
+average positive character behavior: 6
+average value relationship: 9
+average positive in past: 5
+average positive in near future: 5
+average positive in current situation: 7
+average positive near past situation was: 7
+average positive near future situation will be: 7
+
+clip 014
+man with beard
+how positive: 5
+current behavior positive: 6
+positive relationship: 9
+positive in past: 5
+positive in near future: 5
+positive in current situation: 7
+positive near past situation was: 7
+positive near future situation will be: 7
+younger woman with dark hair
+how positive: 5
+current behavior positive: 6
+positive relationship: 9
+positive in past: 5
+positive in near future: 5
+positive in current situation: 7
+positive near past situation was: 7
+positive near future situation will be: 7
+older woman with dark hair
+how positive: 5
+current behavior positive: 5
+positive relationship: 7
+positive in past: 5
+positive in near future: 5
+positive in current situation: 7
+positive near past situation was: 5
+positive near future situation will be: 5
+average positive character: 5
+average positive character behavior: 6
+average value relationship: 8
+average positive in past: 5
+average positive in near future: 5
+average positive in current situation: 7
+average positive near past situation was: 6
+average positive near future situation will be: 6
+
+clip 015
+man with beard
+how positive: 5
+current behavior positive: 6
+positive relationship: 9
+positive in past: 5
+positive in near future: 5
+positive in current situation: 7
+positive near past situation was: 7
+positive near future situation will be: 7
+younger woman with dark hair
+how positive: 5
+current behavior positive: 6
+positive relationship: 9
+positive in past: 5
+positive in near future: 5
+positive in current situation: 7
+positive near past situation was: 7
+positive near future situation will be: 7
+older woman with dark hair
+how positive: 5
+current behavior positive: 5
+positive relationship: 5
+positive in past: 5
+positive in near future: 5
+positive in current situation: 5
+positive near past situation was: 5
+positive near future situation will be: 5
+man with hood
+how positive: 5
+current behavior positive: 4
+positive relationship: 5
+positive in past: 5
+positive in near future: 5
+positive in current situation: 5
+positive near past situation was: 5
+positive near future situation will be: 5
+average positive character: 5
+average positive character behavior: 5
+average value relationship: 6
+average positive in past: 5
+average positive in near future: 5
+average positive in current situation: 7
+average positive near past situation was: 6
+average positive near future situation will be: 6

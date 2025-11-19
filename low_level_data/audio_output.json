@@ -1,0 +1,782 @@
+{
+    "output_000.mov": {
+        "average_amplitude": 0.017935415729880333,
+        "average_pitch_hz": 321.984375
+    },
+    "output_001.mov": {
+        "average_amplitude": 0.03728814423084259,
+        "average_pitch_hz": 397.7055969238281
+    },
+    "output_002.mov": {
+        "average_amplitude": 0.035428766161203384,
+        "average_pitch_hz": 316.64935302734375
+    },
+    "output_003.mov": {
+        "average_amplitude": 0.06343910843133926,
+        "average_pitch_hz": 571.0966186523438
+    },
+    "output_004.mov": {
+        "average_amplitude": 0.05298483371734619,
+        "average_pitch_hz": 836.0857543945312
+    },
+    "output_005.mov": {
+        "average_amplitude": 0.041254814714193344,
+        "average_pitch_hz": 307.14202880859375
+    },
+    "output_006.mov": {
+        "average_amplitude": 0.037052568048238754,
+        "average_pitch_hz": 972.7272338867188
+    },
+    "output_007.mov": {
+        "average_amplitude": 0.05730341374874115,
+        "average_pitch_hz": 767.4484252929688
+    },
+    "output_008.mov": {
+        "average_amplitude": 0.09109272062778473,
+        "average_pitch_hz": 783.6035766601562
+    },
+    "output_009.mov": {
+        "average_amplitude": 0.07134873420000076,
+        "average_pitch_hz": 970.7595825195312
+    },
+    "output_010.mov": {
+        "average_amplitude": 0.06678925454616547,
+        "average_pitch_hz": 1031.491455078125
+    },
+    "output_011.mov": {
+        "average_amplitude": 0.0639830082654953,
+        "average_pitch_hz": 1681.0299072265625
+    },
+    "output_012.mov": {
+        "average_amplitude": 0.020668378099799156,
+        "average_pitch_hz": 816.2123413085938
+    },
+    "output_013.mov": {
+        "average_amplitude": 0.0040806857869029045,
+        "average_pitch_hz": 397.73095703125
+    },
+    "output_014.mov": {
+        "average_amplitude": 0.007099056616425514,
+        "average_pitch_hz": 351.6968078613281
+    },
+    "output_015.mov": {
+        "average_amplitude": 0.007512053940445185,
+        "average_pitch_hz": 266.810302734375
+    },
+    "output_016.mov": {
+        "average_amplitude": 0.007300494238734245,
+        "average_pitch_hz": 323.9978942871094
+    },
+    "output_017.mov": {
+        "average_amplitude": 0.009056828916072845,
+        "average_pitch_hz": 279.2344055175781
+    },
+    "output_018.mov": {
+        "average_amplitude": 0.019623519852757454,
+        "average_pitch_hz": 293.7303771972656
+    },
+    "output_019.mov": {
+        "average_amplitude": 0.005496417172253132,
+        "average_pitch_hz": 283.5232238769531
+    },
+    "output_020.mov": {
+        "average_amplitude": 0.008218895643949509,
+        "average_pitch_hz": 232.20089721679688
+    },
+    "output_021.mov": {
+        "average_amplitude": 0.008197949267923832,
+        "average_pitch_hz": 216.75794982910156
+    },
+    "output_022.mov": {
+        "average_amplitude": 0.013805202208459377,
+        "average_pitch_hz": 280.6319274902344
+    },
+    "output_023.mov": {
+        "average_amplitude": 0.012504479847848415,
+        "average_pitch_hz": 233.87876892089844
+    },
+    "output_024.mov": {
+        "average_amplitude": 0.004565784707665443,
+        "average_pitch_hz": 420.0546569824219
+    },
+    "output_025.mov": {
+        "average_amplitude": 0.004409515764564276,
+        "average_pitch_hz": 592.6109008789062
+    },
+    "output_026.mov": {
+        "average_amplitude": 0.010195928625762463,
+        "average_pitch_hz": 712.6210327148438
+    },
+    "output_027.mov": {
+        "average_amplitude": 0.006532696541398764,
+        "average_pitch_hz": 533.0048217773438
+    },
+    "output_028.mov": {
+        "average_amplitude": 0.009941497817635536,
+        "average_pitch_hz": 433.0465087890625
+    },
+    "output_029.mov": {
+        "average_amplitude": 0.0049222311936318874,
+        "average_pitch_hz": 358.1068115234375
+    },
+    "output_030.mov": {
+        "average_amplitude": 0.014070829376578331,
+        "average_pitch_hz": 446.5323486328125
+    },
+    "output_031.mov": {
+        "average_amplitude": 0.016809586435556412,
+        "average_pitch_hz": 400.6794738769531
+    },
+    "output_032.mov": {
+        "average_amplitude": 0.04629106447100639,
+        "average_pitch_hz": 623.1043090820312
+    },
+    "output_033.mov": {
+        "average_amplitude": 0.0520835779607296,
+        "average_pitch_hz": 607.9679565429688
+    },
+    "output_034.mov": {
+        "average_amplitude": 0.0520184151828289,
+        "average_pitch_hz": 845.6690673828125
+    },
+    "output_035.mov": {
+        "average_amplitude": 0.030001474544405937,
+        "average_pitch_hz": 499.2469177246094
+    },
+    "output_036.mov": {
+        "average_amplitude": 0.014532809145748615,
+        "average_pitch_hz": 512.4088745117188
+    },
+    "output_037.mov": {
+        "average_amplitude": 0.005340227857232094,
+        "average_pitch_hz": 527.1657104492188
+    },
+    "output_038.mov": {
+        "average_amplitude": 0.024823620915412903,
+        "average_pitch_hz": 346.75469970703125
+    },
+    "output_039.mov": {
+        "average_amplitude": 0.012208680622279644,
+        "average_pitch_hz": 703.7313842773438
+    },
+    "output_040.mov": {
+        "average_amplitude": 0.03607433661818504,
+        "average_pitch_hz": 417.78399658203125
+    },
+    "output_041.mov": {
+        "average_amplitude": 0.06097752973437309,
+        "average_pitch_hz": 455.7957458496094
+    },
+    "output_042.mov": {
+        "average_amplitude": 0.049911245703697205,
+        "average_pitch_hz": 478.8276672363281
+    },
+    "output_043.mov": {
+        "average_amplitude": 0.054241862148046494,
+        "average_pitch_hz": 462.2201843261719
+    },
+    "output_044.mov": {
+        "average_amplitude": 0.0657811090350151,
+        "average_pitch_hz": 381.9333801269531
+    },
+    "output_045.mov": {
+        "average_amplitude": 0.07009623199701309,
+        "average_pitch_hz": 463.12152099609375
+    },
+    "output_046.mov": {
+        "average_amplitude": 0.05747804418206215,
+        "average_pitch_hz": 481.5684814453125
+    },
+    "output_047.mov": {
+        "average_amplitude": 0.05219756439328194,
+        "average_pitch_hz": 372.3677978515625
+    },
+    "output_048.mov": {
+        "average_amplitude": 0.06751023232936859,
+        "average_pitch_hz": 425.5096435546875
+    },
+    "output_049.mov": {
+        "average_amplitude": 0.026638265699148178,
+        "average_pitch_hz": 391.5012512207031
+    },
+    "output_050.mov": {
+        "average_amplitude": 0.026901094242930412,
+        "average_pitch_hz": 245.1860809326172
+    },
+    "output_051.mov": {
+        "average_amplitude": 0.028727887198328972,
+        "average_pitch_hz": 280.0903625488281
+    },
+    "output_052.mov": {
+        "average_amplitude": 0.036421727389097214,
+        "average_pitch_hz": 299.6222839355469
+    },
+    "output_053.mov": {
+        "average_amplitude": 0.05068456381559372,
+        "average_pitch_hz": 348.3605041503906
+    },
+    "output_054.mov": {
+        "average_amplitude": 0.02585991844534874,
+        "average_pitch_hz": 283.4247131347656
+    },
+    "output_055.mov": {
+        "average_amplitude": 0.026973005384206772,
+        "average_pitch_hz": 253.40371704101562
+    },
+    "output_056.mov": {
+        "average_amplitude": 0.03988777473568916,
+        "average_pitch_hz": 845.4738159179688
+    },
+    "output_057.mov": {
+        "average_amplitude": 0.016724782064557076,
+        "average_pitch_hz": 763.912109375
+    },
+    "output_058.mov": {
+        "average_amplitude": 0.017373375594615936,
+        "average_pitch_hz": 467.4793701171875
+    },
+    "output_059.mov": {
+        "average_amplitude": 0.017184721305966377,
+        "average_pitch_hz": 413.7383728027344
+    },
+    "output_060.mov": {
+        "average_amplitude": 0.00899195671081543,
+        "average_pitch_hz": 567.4810180664062
+    },
+    "output_061.mov": {
+        "average_amplitude": 0.01322302408516407,
+        "average_pitch_hz": 611.625244140625
+    },
+    "output_062.mov": {
+        "average_amplitude": 0.01876281574368477,
+        "average_pitch_hz": 695.000732421875
+    },
+    "output_063.mov": {
+        "average_amplitude": 0.0157478004693985,
+        "average_pitch_hz": 683.3558349609375
+    },
+    "output_064.mov": {
+        "average_amplitude": 0.015270955860614777,
+        "average_pitch_hz": 628.7664794921875
+    },
+    "output_065.mov": {
+        "average_amplitude": 0.023300716653466225,
+        "average_pitch_hz": 765.3311767578125
+    },
+    "output_066.mov": {
+        "average_amplitude": 0.025445055216550827,
+        "average_pitch_hz": 541.9856567382812
+    },
+    "output_067.mov": {
+        "average_amplitude": 0.020263971760869026,
+        "average_pitch_hz": 310.1304626464844
+    },
+    "output_068.mov": {
+        "average_amplitude": 0.019620688632130623,
+        "average_pitch_hz": 369.9086608886719
+    },
+    "output_069.mov": {
+        "average_amplitude": 0.020060531795024872,
+        "average_pitch_hz": 405.2181701660156
+    },
+    "output_070.mov": {
+        "average_amplitude": 0.01371635589748621,
+        "average_pitch_hz": 323.4666442871094
+    },
+    "output_071.mov": {
+        "average_amplitude": 0.013317575678229332,
+        "average_pitch_hz": 514.0205688476562
+    },
+    "output_072.mov": {
+        "average_amplitude": 0.013005017302930355,
+        "average_pitch_hz": 439.6390686035156
+    },
+    "output_073.mov": {
+        "average_amplitude": 0.01138725783675909,
+        "average_pitch_hz": 319.02032470703125
+    },
+    "output_074.mov": {
+        "average_amplitude": 0.017979566007852554,
+        "average_pitch_hz": 613.7433471679688
+    },
+    "output_075.mov": {
+        "average_amplitude": 0.013957624323666096,
+        "average_pitch_hz": 436.1641845703125
+    },
+    "output_076.mov": {
+        "average_amplitude": 0.020261628553271294,
+        "average_pitch_hz": 579.9215087890625
+    },
+    "output_077.mov": {
+        "average_amplitude": 0.03212080895900726,
+        "average_pitch_hz": 576.857666015625
+    },
+    "output_078.mov": {
+        "average_amplitude": 0.030811738222837448,
+        "average_pitch_hz": 729.1751708984375
+    },
+    "output_079.mov": {
+        "average_amplitude": 0.0069627342745661736,
+        "average_pitch_hz": 607.8572387695312
+    },
+    "output_080.mov": {
+        "average_amplitude": 0.0031280573457479477,
+        "average_pitch_hz": 771.8930053710938
+    },
+    "output_081.mov": {
+        "average_amplitude": 0.0013967766426503658,
+        "average_pitch_hz": 509.10302734375
+    },
+    "output_082.mov": {
+        "average_amplitude": 0.0014701272593811154,
+        "average_pitch_hz": 337.3094787597656
+    },
+    "output_083.mov": {
+        "average_amplitude": 0.0020148998592048883,
+        "average_pitch_hz": 339.2059020996094
+    },
+    "output_084.mov": {
+        "average_amplitude": 0.0031115945894271135,
+        "average_pitch_hz": 370.9447937011719
+    },
+    "output_085.mov": {
+        "average_amplitude": 0.002129601314663887,
+        "average_pitch_hz": 997.1094970703125
+    },
+    "output_086.mov": {
+        "average_amplitude": 0.0031012806575745344,
+        "average_pitch_hz": 891.5917358398438
+    },
+    "output_087.mov": {
+        "average_amplitude": 0.002483382122591138,
+        "average_pitch_hz": 453.6130676269531
+    },
+    "output_088.mov": {
+        "average_amplitude": 0.003216525772586465,
+        "average_pitch_hz": 406.4888000488281
+    },
+    "output_089.mov": {
+        "average_amplitude": 0.0020200316794216633,
+        "average_pitch_hz": 660.8762817382812
+    },
+    "output_090.mov": {
+        "average_amplitude": 0.0022990028373897076,
+        "average_pitch_hz": 554.4094848632812
+    },
+    "output_091.mov": {
+        "average_amplitude": 0.003046361031010747,
+        "average_pitch_hz": 453.1144714355469
+    },
+    "output_092.mov": {
+        "average_amplitude": 0.003045857883989811,
+        "average_pitch_hz": 301.4538879394531
+    },
+    "output_093.mov": {
+        "average_amplitude": 0.003547609318047762,
+        "average_pitch_hz": 418.2137756347656
+    },
+    "output_094.mov": {
+        "average_amplitude": 0.0034146762918680906,
+        "average_pitch_hz": 383.0893859863281
+    },
+    "output_095.mov": {
+        "average_amplitude": 0.004956639837473631,
+        "average_pitch_hz": 333.6529541015625
+    },
+    "output_096.mov": {
+        "average_amplitude": 0.0029075448401272297,
+        "average_pitch_hz": 355.4161071777344
+    },
+    "output_097.mov": {
+        "average_amplitude": 0.003840539837256074,
+        "average_pitch_hz": 397.17779541015625
+    },
+    "output_098.mov": {
+        "average_amplitude": 0.002834073267877102,
+        "average_pitch_hz": 429.7623291015625
+    },
+    "output_099.mov": {
+        "average_amplitude": 0.0026617946568876505,
+        "average_pitch_hz": 454.6920166015625
+    },
+    "output_100.mov": {
+        "average_amplitude": 0.00975680723786354,
+        "average_pitch_hz": 457.3831481933594
+    },
+    "output_101.mov": {
+        "average_amplitude": 0.04415358230471611,
+        "average_pitch_hz": 287.78448486328125
+    },
+    "output_102.mov": {
+        "average_amplitude": 0.06897538900375366,
+        "average_pitch_hz": 242.23089599609375
+    },
+    "output_103.mov": {
+        "average_amplitude": 0.07518813759088516,
+        "average_pitch_hz": 388.63836669921875
+    },
+    "output_104.mov": {
+        "average_amplitude": 0.05588734894990921,
+        "average_pitch_hz": 592.7946166992188
+    },
+    "output_105.mov": {
+        "average_amplitude": 0.020401494577527046,
+        "average_pitch_hz": 649.51318359375
+    },
+    "output_106.mov": {
+        "average_amplitude": 0.010928269475698471,
+        "average_pitch_hz": 691.6340942382812
+    },
+    "output_107.mov": {
+        "average_amplitude": 0.01604558899998665,
+        "average_pitch_hz": 293.4125061035156
+    },
+    "output_108.mov": {
+        "average_amplitude": 0.0193021260201931,
+        "average_pitch_hz": 237.85340881347656
+    },
+    "output_109.mov": {
+        "average_amplitude": 0.021272337064146996,
+        "average_pitch_hz": 253.60362243652344
+    },
+    "output_110.mov": {
+        "average_amplitude": 0.017849238589406013,
+        "average_pitch_hz": 280.0293884277344
+    },
+    "output_111.mov": {
+        "average_amplitude": 0.025733614340424538,
+        "average_pitch_hz": 418.62933349609375
+    },
+    "output_112.mov": {
+        "average_amplitude": 0.010382311418652534,
+        "average_pitch_hz": 619.0639038085938
+    },
+    "output_113.mov": {
+        "average_amplitude": 0.004485465586185455,
+        "average_pitch_hz": 1013.6375732421875
+    },
+    "output_114.mov": {
+        "average_amplitude": 0.0019115550676360726,
+        "average_pitch_hz": 752.9713134765625
+    },
+    "output_115.mov": {
+        "average_amplitude": 0.0012904286850243807,
+        "average_pitch_hz": 486.8733825683594
+    },
+    "output_116.mov": {
+        "average_amplitude": 0.003982186783105135,
+        "average_pitch_hz": 357.2800598144531
+    },
+    "output_117.mov": {
+        "average_amplitude": 0.003236045828089118,
+        "average_pitch_hz": 495.87237548828125
+    },
+    "output_118.mov": {
+        "average_amplitude": 0.007591472007334232,
+        "average_pitch_hz": 791.389892578125
+    },
+    "output_119.mov": {
+        "average_amplitude": 0.0057556526735424995,
+        "average_pitch_hz": 548.9939575195312
+    },
+    "output_120.mov": {
+        "average_amplitude": 0.006242291070520878,
+        "average_pitch_hz": 589.83349609375
+    },
+    "output_121.mov": {
+        "average_amplitude": 0.000619149359408766,
+        "average_pitch_hz": 361.326416015625
+    },
+    "output_122.mov": {
+        "average_amplitude": 0.0009243912063539028,
+        "average_pitch_hz": 480.79937744140625
+    },
+    "output_123.mov": {
+        "average_amplitude": 0.011710252612829208,
+        "average_pitch_hz": 546.7249755859375
+    },
+    "output_124.mov": {
+        "average_amplitude": 0.0059952447190880775,
+        "average_pitch_hz": 578.8662109375
+    },
+    "output_125.mov": {
+        "average_amplitude": 0.008122479543089867,
+        "average_pitch_hz": 513.9641723632812
+    },
+    "output_126.mov": {
+        "average_amplitude": 0.014000852592289448,
+        "average_pitch_hz": 552.60546875
+    },
+    "output_127.mov": {
+        "average_amplitude": 0.018746118992567062,
+        "average_pitch_hz": 361.5370178222656
+    },
+    "output_128.mov": {
+        "average_amplitude": 0.023934248834848404,
+        "average_pitch_hz": 482.6195373535156
+    },
+    "output_129.mov": {
+        "average_amplitude": 0.015346962958574295,
+        "average_pitch_hz": 861.2993774414062
+    },
+    "output_130.mov": {
+        "average_amplitude": 0.006634213961660862,
+        "average_pitch_hz": 418.1746520996094
+    },
+    "output_131.mov": {
+        "average_amplitude": 0.011053726077079773,
+        "average_pitch_hz": 399.3882751464844
+    },
+    "output_132.mov": {
+        "average_amplitude": 0.010857362300157547,
+        "average_pitch_hz": 659.1030883789062
+    },
+    "output_133.mov": {
+        "average_amplitude": 0.006452084053307772,
+        "average_pitch_hz": 823.1869506835938
+    },
+    "output_134.mov": {
+        "average_amplitude": 0.007130177225917578,
+        "average_pitch_hz": 575.7716674804688
+    },
+    "output_135.mov": {
+        "average_amplitude": 0.018543580546975136,
+        "average_pitch_hz": 507.92889404296875
+    },
+    "output_136.mov": {
+        "average_amplitude": 0.0167243629693985,
+        "average_pitch_hz": 656.9512939453125
+    },
+    "output_137.mov": {
+        "average_amplitude": 0.017859062179923058,
+        "average_pitch_hz": 753.0777587890625
+    },
+    "output_138.mov": {
+        "average_amplitude": 0.015849629417061806,
+        "average_pitch_hz": 711.4566650390625
+    },
+    "output_139.mov": {
+        "average_amplitude": 0.01800372824072838,
+        "average_pitch_hz": 790.5818481445312
+    },
+    "output_140.mov": {
+        "average_amplitude": 0.01648981310427189,
+        "average_pitch_hz": 607.610595703125
+    },
+    "output_141.mov": {
+        "average_amplitude": 0.030043158680200577,
+        "average_pitch_hz": 470.3539123535156
+    },
+    "output_142.mov": {
+        "average_amplitude": 0.03797605261206627,
+        "average_pitch_hz": 523.7876586914062
+    },
+    "output_143.mov": {
+        "average_amplitude": 0.05383823439478874,
+        "average_pitch_hz": 566.0242309570312
+    },
+    "output_144.mov": {
+        "average_amplitude": 0.06317313760519028,
+        "average_pitch_hz": 803.435302734375
+    },
+    "output_145.mov": {
+        "average_amplitude": 0.05277904495596886,
+        "average_pitch_hz": 756.2532958984375
+    },
+    "output_146.mov": {
+        "average_amplitude": 0.049293551594018936,
+        "average_pitch_hz": 943.3590698242188
+    },
+    "output_147.mov": {
+        "average_amplitude": 0.056201472878456116,
+        "average_pitch_hz": 778.5128784179688
+    },
+    "output_148.mov": {
+        "average_amplitude": 0.04320484399795532,
+        "average_pitch_hz": 693.8156127929688
+    },
+    "output_149.mov": {
+        "average_amplitude": 0.06331236660480499,
+        "average_pitch_hz": 474.7957763671875
+    },
+    "output_150.mov": {
+        "average_amplitude": 0.056226883083581924,
+        "average_pitch_hz": 386.35467529296875
+    },
+    "output_151.mov": {
+        "average_amplitude": 0.005374068859964609,
+        "average_pitch_hz": 650.1859741210938
+    },
+    "output_152.mov": {
+        "average_amplitude": 0.005232749041169882,
+        "average_pitch_hz": 668.2138671875
+    },
+    "output_153.mov": {
+        "average_amplitude": 0.02328529767692089,
+        "average_pitch_hz": 1254.1015625
+    },
+    "output_154.mov": {
+        "average_amplitude": 0.02848491258919239,
+        "average_pitch_hz": 799.5630493164062
+    },
+    "output_155.mov": {
+        "average_amplitude": 0.025913232937455177,
+        "average_pitch_hz": 793.1093139648438
+    },
+    "output_156.mov": {
+        "average_amplitude": 0.014415904879570007,
+        "average_pitch_hz": 744.2073974609375
+    },
+    "output_157.mov": {
+        "average_amplitude": 0.027419662103056908,
+        "average_pitch_hz": 752.2639770507812
+    },
+    "output_158.mov": {
+        "average_amplitude": 0.0290316604077816,
+        "average_pitch_hz": 748.945068359375
+    },
+    "output_159.mov": {
+        "average_amplitude": 0.016316363587975502,
+        "average_pitch_hz": 424.16510009765625
+    },
+    "output_160.mov": {
+        "average_amplitude": 0.032839562743902206,
+        "average_pitch_hz": 568.9265747070312
+    },
+    "output_161.mov": {
+        "average_amplitude": 0.019162189215421677,
+        "average_pitch_hz": 845.8280639648438
+    },
+    "output_162.mov": {
+        "average_amplitude": 0.0047067515552043915,
+        "average_pitch_hz": 724.732421875
+    },
+    "output_163.mov": {
+        "average_amplitude": 0.018329937011003494,
+        "average_pitch_hz": 565.6766357421875
+    },
+    "output_164.mov": {
+        "average_amplitude": 0.0005329889827407897,
+        "average_pitch_hz": 280.40008544921875
+    },
+    "output_165.mov": {
+        "average_amplitude": 0.00256746425293386,
+        "average_pitch_hz": 274.8632507324219
+    },
+    "output_166.mov": {
+        "average_amplitude": 0.00010764724720502272,
+        "average_pitch_hz": 436.7995300292969
+    },
+    "output_167.mov": {
+        "average_amplitude": 6.504222983494401e-05,
+        "average_pitch_hz": 301.7996826171875
+    },
+    "output_168.mov": {
+        "average_amplitude": 0.001877049682661891,
+        "average_pitch_hz": 409.24798583984375
+    },
+    "output_169.mov": {
+        "average_amplitude": 0.007679464295506477,
+        "average_pitch_hz": 823.7596435546875
+    },
+    "output_170.mov": {
+        "average_amplitude": 0.005139919463545084,
+        "average_pitch_hz": 951.57958984375
+    },
+    "output_171.mov": {
+        "average_amplitude": 0.015056582167744637,
+        "average_pitch_hz": 943.2857666015625
+    },
+    "output_172.mov": {
+        "average_amplitude": 0.010429192334413528,
+        "average_pitch_hz": 719.1839599609375
+    },
+    "output_173.mov": {
+        "average_amplitude": 0.014564400538802147,
+        "average_pitch_hz": 782.7186889648438
+    },
+    "output_174.mov": {
+        "average_amplitude": 0.015243062749505043,
+        "average_pitch_hz": 598.058349609375
+    },
+    "output_175.mov": {
+        "average_amplitude": 0.01730205863714218,
+        "average_pitch_hz": 571.7679443359375
+    },
+    "output_176.mov": {
+        "average_amplitude": 0.0009537370060570538,
+        "average_pitch_hz": 708.7986450195312
+    },
+    "output_177.mov": {
+        "average_amplitude": 0.0010853307321667671,
+        "average_pitch_hz": 612.11865234375
+    },
+    "output_178.mov": {
+        "average_amplitude": 0.006465642713010311,
+        "average_pitch_hz": 650.8091430664062
+    },
+    "output_179.mov": {
+        "average_amplitude": 0.013675830326974392,
+        "average_pitch_hz": 579.3262939453125
+    },
+    "output_180.mov": {
+        "average_amplitude": 0.00993302371352911,
+        "average_pitch_hz": 524.558349609375
+    },
+    "output_181.mov": {
+        "average_amplitude": 0.013004357926547527,
+        "average_pitch_hz": 1026.009521484375
+    },
+    "output_182.mov": {
+        "average_amplitude": 0.014347761869430542,
+        "average_pitch_hz": 788.39013671875
+    },
+    "output_183.mov": {
+        "average_amplitude": 0.028992848470807076,
+        "average_pitch_hz": 641.2997436523438
+    },
+    "output_184.mov": {
+        "average_amplitude": 0.04292865842580795,
+        "average_pitch_hz": 803.3917236328125
+    },
+    "output_185.mov": {
+        "average_amplitude": 0.01682117208838463,
+        "average_pitch_hz": 417.5189208984375
+    },
+    "output_186.mov": {
+        "average_amplitude": 0.016808049753308296,
+        "average_pitch_hz": 431.255859375
+    },
+    "output_187.mov": {
+        "average_amplitude": 0.04280984774231911,
+        "average_pitch_hz": 732.1310424804688
+    },
+    "output_188.mov": {
+        "average_amplitude": 0.03840021416544914,
+        "average_pitch_hz": 521.22509765625
+    },
+    "output_189.mov": {
+        "average_amplitude": 0.012179459445178509,
+        "average_pitch_hz": 506.992431640625
+    },
+    "output_190.mov": {
+        "average_amplitude": 0.018791869282722473,
+        "average_pitch_hz": 402.4146423339844
+    },
+    "output_191.mov": {
+        "average_amplitude": 0.034266773611307144,
+        "average_pitch_hz": 635.2627563476562
+    },
+    "output_192.mov": {
+        "average_amplitude": 0.04074304178357124,
+        "average_pitch_hz": 482.07879638671875
+    },
+    "output_193.mov": {
+        "average_amplitude": 0.017378265038132668,
+        "average_pitch_hz": 431.1133728027344
+    },
+    "output_194.mov": {
+        "average_amplitude": 0.0006757981609553099,
+        "average_pitch_hz": 535.1428833007812
+    }
+}
