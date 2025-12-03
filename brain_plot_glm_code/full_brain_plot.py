@@ -53,11 +53,14 @@ def get_got_nuisance(subj):
 
     # Replace first nan in 'framewise_displacement with 0'
     raw_confounds = np.nan_to_num(raw_confounds_df[columns].values)
+    print("raw confounds: " + str(raw_confounds.shape))
     # Zscore confounds, fmriprep recommendation
     confounds = np.nan_to_num(zscore(raw_confounds, axis=0))
+    print("confounds model: " + str(confounds.shape))
     
     # Add drift regressors
     poly = legendre_polynomials(n_tp=confounds.shape[0])
+    print("drift model: " + str(poly.shape))
     return np.concatenate((confounds, poly), axis=1) # shape of (126, 15)
 
 
@@ -65,12 +68,16 @@ def get_got_nuisance(subj):
 
 def run_glm_manual(subj, hemi, regressor_cam, regressor_scene):
     nuisance = get_got_nuisance(subj)
+    print("nuisance shape: " + str(nuisance.shape))
     #camera regressor only
     regressor_cam_full = np.hstack([regressor_cam, nuisance])
+    print("regressor cam full shape: " + str(regressor_cam_full.shape))
     #scene regressor only
     regressor_scene_full = np.hstack([regressor_scene, nuisance])
+    print("regressor scene full shape: " + str(regressor_scene_full.shape))
     #full regressor
     regressor = np.hstack([regressor_cam, regressor_scene_full])
+    print("full regressor shape: " + str(regressor.shape))  
     #data matrix
     mask = load_mask(hemi)
     denoised_dir = os.path.join(FMRI_DATA_DIR, f'denoised/{subj}')
@@ -228,19 +235,19 @@ if __name__ == "__main__":
     ]
     # Plot perceptual features group average t-maps
 
-    for i, contrast in enumerate(contrast_names):
-        print("inside")
-        plot_data = []
-        for group in groups:
-            fn = f'{group}_{contrast}.npy'
-            group_data = np.load(os.path.join(AVERAGED_DATA_DIR, fn))
-            contrast_data = group_data[0, :]
-            plot_data.append(contrast_data)
+    # for i, contrast in enumerate(contrast_names):
+    #     print("inside")
+    #     plot_data = []
+    #     for group in groups:
+    #         fn = f'{group}_{contrast}.npy'
+    #         group_data = np.load(os.path.join(AVERAGED_DATA_DIR, fn))
+    #         contrast_data = group_data[0, :]
+    #         plot_data.append(contrast_data)
         
-        fig, axs = plot_brains(plot_data, groups, plot_titles=True)
-        fig.suptitle(contrast, fontsize=32)
-        plt.show()
-        save_fn = os.path.join(FIG_DIR, f'{contrast}.png')
-        fig.savefig(save_fn, bbox_inches='tight') # Save the figure to your designated directory
-        plt.close(fig) # Close the figure to free memory
+    #     fig, axs = plot_brains(plot_data, groups, plot_titles=True)
+    #     fig.suptitle(contrast, fontsize=32)
+    #     plt.show()
+    #     save_fn = os.path.join(FIG_DIR, f'{contrast}.png')
+    #     fig.savefig(save_fn, bbox_inches='tight') # Save the figure to your designated directory
+    #     plt.close(fig) # Close the figure to free memory
        
