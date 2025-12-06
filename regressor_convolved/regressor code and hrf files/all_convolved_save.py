@@ -26,19 +26,8 @@ def save_plot(fig, plot_name, save_dir="plots"):
     plt.close(fig) # Close the figure to free up memory
     print(f"Saved plot: {file_path}")
 
-def convolve_and_save_npy(regressor, hrf, base_name, save_dir="data"):
-    """
-    Performs convolution and z-scoring, then saves the results as .npy files.
+def convolve_and_save_npy(regressor, hrf, base_name, save_dir="convolved"):
 
-    Args:
-        regressor (np.ndarray): The stimulus regressor array.
-        hrf (np.ndarray): The HRF kernel.
-        base_name (str): Base name for the output files (e.g., 'camera', 'scene').
-        save_dir (str): The directory to save the files in.
-
-    Returns:
-        tuple: (convolved_signal, z_scored_signal)
-    """
     # Create directory if it doesn't exist
     os.makedirs(save_dir, exist_ok=True)
     
@@ -99,7 +88,18 @@ def arrange_timestamp_data(timestamps_txt, camOrScene):
                 
     # Retaining the original CSV save functionality for count_values
     # You might want to switch this to .npy too, but following the original code structure for this file
-    np.savetxt('_regressorTestcsv'+camOrScene+'.csv', count_values, delimiter=',')
+    unconvolved_save_dir = "unconvolved"
+    os.makedirs(unconvolved_save_dir, exist_ok=True) # Ensure the directory exists
+
+    # Save the boolean vector (onsets)
+    boolean_filename = f'unconvolved_boolean_{camOrScene}.npy'
+    np.save(os.path.join(unconvolved_save_dir, boolean_filename), boolean_values)
+    print(f"Saved boolean vector to: {os.path.join(unconvolved_save_dir, boolean_filename)}")
+
+    # Save the count vector (frequency of events per TR)
+    count_filename = f'unconvolved_count_{camOrScene}.npy'
+    np.save(os.path.join(unconvolved_save_dir, count_filename), count_values)
+    print(f"Saved count vector to: {os.path.join(unconvolved_save_dir, count_filename)}")
     return boolean_values
 
 def plot_data(regressor, convolved, title_name):
@@ -178,8 +178,3 @@ plot_data(regressor_scene_cut, convolved_scene, 'scene cut')
 
 plot_z_scores(convolved_z_camera, 'camera cut')
 plot_z_scores(convolved_z_scene, 'scene cut')
-
-# The original script had plotting and saving code after the main logic; 
-# the new structure integrates saving into the functions. The previous manual 
-# saving attempts using .to_csv() on NumPy arrays are removed, as they are now 
-# correctly saved as .npy files within convolve_and_save_npy.
