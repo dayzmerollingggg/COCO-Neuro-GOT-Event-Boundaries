@@ -35,35 +35,35 @@ def regressorbool(bool_values,file_name,duration_len):
     # Compute a convolved regressor
     regressor_2, _ = compute_regressor(exp_condition=exp_condition_2, frame_times=frame_times, hrf_model='spm')
     single_array = regressor_2.flatten()    
-    fig, ax = plt.subplots(figsize=(12, 4))
-    ax.plot(frame_times, single_array)
-    ax.set_ylabel('amplitude')
-    ax.set_xlabel('Time (s)')
-    ax.set_title('Regressor bool '+file_name)
-    plt.show()
+    # fig, ax = plt.subplots(figsize=(12, 4))
+    # ax.plot(frame_times, single_array)
+    # ax.set_ylabel('amplitude')
+    # ax.set_xlabel('Time (s)')
+    # ax.set_title('Regressor bool '+file_name)
+    # plt.show()
     convolved_camera = fftconvolve(single_array, hrf)[:len(single_array)]
-    fig, ax_mag = plt.subplots(figsize=(12, 4))
-    # Plot the convolved signal on the bottom subplot
-    # Since we truncated 'convolved' to the length of 'regressor', the x-axis is simple
-    ax_mag.plot(convolved_camera)
-    ax_mag.set_title('Convolved '+file_name+ ' Signal')
-    ax_mag.set_xlabel('Time 2s intervals')
-    ax_mag.set_ylabel('Amplitude')
-    plt.show()
-    zscore_reg = zscore(regressor_2)
-    # Plot the output for reference - it should be the same as above
-    fig, ax = plt.subplots(figsize=(12, 4))
-    ax.plot(frame_times, zscore_reg)
-    ax.set_ylabel('amplitude')
-    ax.set_xlabel('Time (s)')
-    ax.set_title('ZScore bool '+file_name)
-    plt.show()
+    # fig, ax_mag = plt.subplots(figsize=(12, 4))
+    # # Plot the convolved signal on the bottom subplot
+    # # Since we truncated 'convolved' to the length of 'regressor', the x-axis is simple
+    # ax_mag.plot(convolved_camera)
+    # ax_mag.set_title('Convolved '+file_name+ ' Signal')
+    # ax_mag.set_xlabel('Time 2s intervals')
+    # ax_mag.set_ylabel('Amplitude')
+    # plt.show()
+    # zscore_reg = zscore(regressor_2)
+    # # Plot the output for reference - it should be the same as above
+    # fig, ax = plt.subplots(figsize=(12, 4))
+    # ax.plot(frame_times, zscore_reg)
+    # ax.set_ylabel('amplitude')
+    # ax.set_xlabel('Time (s)')
+    # ax.set_title('ZScore bool '+file_name)
+    # plt.show()
     regressor_df = pd.DataFrame(data=regressor_2, columns=['presence/absence of '+file_name])
-    regressor_df.to_csv('./bool_regressor_'+file_name+'.csv')
+    regressor_df.to_csv(file_name+'_regressors.csv')
 
-    timing_data = pd.DataFrame(data=exp_condition_2, index=['onset', 'duration', 'amplitude'])
-    timing_df = timing_data.T
-    timing_df.to_csv('./bool_timing_'+file_name+'.csv')
+    # timing_data = pd.DataFrame(data=exp_condition_2, index=['onset', 'duration', 'amplitude'])
+    # timing_df = timing_data.T
+    # timing_df.to_csv(file_name+'_timing.csv')
     # Check if outputs are the same
     #print(np.array_equal(regressor_1, regressor_2)) # should raise error if outputs are different
 
@@ -146,6 +146,21 @@ def define_timestamp_data(timestamps_txt,file_name,duration_len):
                 boolean_values[interval_index] = 1
                 count_values[interval_index] += 1
     regressorbool(boolean_values,file_name,duration_len)
+    index_values = np.arange(len(boolean_values)) 
+    
+    # Create a Pandas DataFrame
+    data = {
+        'Interval_Index': index_values,
+        f'{file_name}_Boolean_Value': boolean_values
+    }
+    df = pd.DataFrame(data)
+    
+    # Define the output file name
+    output_csv_name = f"{file_name}_boolean_data.csv"
+    
+    # Save the DataFrame to CSV
+    # index=False prevents writing the internal pandas index (0, 1, 2...) to the CSV
+    df.to_csv(output_csv_name, index=False)
     #regressoramp(count_values,file_name,duration_len)
 
 
@@ -155,6 +170,18 @@ with open('daisy_timestamps.txt', 'r') as f:
 
 with open('daisy_scene_changes.txt', 'r') as f:
     my_scene_changes_txt = f.read()
+with open('delayed_camera_cuts.txt', 'r') as f:
+    delayed_camera_txt = f.read()
+with open('delayed_scene_changes.txt', 'r') as f:
+    delayed_scene_txt = f.read()
+with open('medium_length.txt', 'r') as f:
+    medium_txt = f.read()
+with open('delayed_medium_length.txt', 'r') as f:
+    delayed_medium_txt = f.read()
 #separated by parameters specific to camera and scene
 define_timestamp_data(my_timestamps_txt,'camera_cuts',2) 
 define_timestamp_data(my_scene_changes_txt,'scene_cuts',2)
+define_timestamp_data(delayed_camera_txt,'delayed_camera_cuts',2)
+define_timestamp_data(delayed_scene_txt,'delayed_scene_cuts',2)
+define_timestamp_data(delayed_medium_txt,'delayed_medium_length',2)
+define_timestamp_data(medium_txt,'medium_length',2)

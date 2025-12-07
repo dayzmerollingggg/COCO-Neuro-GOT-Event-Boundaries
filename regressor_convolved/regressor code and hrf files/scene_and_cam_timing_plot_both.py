@@ -1,4 +1,5 @@
 from os import name
+import os
 import matplotlib.pyplot as plt
 import numpy as np
 
@@ -161,6 +162,24 @@ def plot_timestamp_data(timestamps_txt_1, timestamps_txt_2=None, label_1="Data S
 
     plt.tight_layout(rect=[0, 0.03, 1, 0.95])
     plt.show()
+    save_fn = os.path.join('./', 'timestamp_comparison_plot.png')  # Define your save path and filename
+    fig.savefig(save_fn, bbox_inches='tight') # Save the figure to your designated directory
+
+    plt.figure(figsize=(10, 6))
+    log_array = np.nan_to_num(np.log(avg_num_cuts),posinf=True, neginf=True) 
+    mean_centered = log_array- np.mean(np.nan_to_num(np.log(avg_num_cuts),posinf=True, neginf=True))
+    #print(log_array)
+    mean = np.mean(log_array)
+    # Example with customization
+    plt.hist(mean_centered)
+    plt.title('Mean Distribution of Sample Data')
+    plt.axvline(mean, color='red', linestyle='dashed', linewidth=1)
+    plt.xlabel('Value')
+    # Since density=False (default), the y-axis is the count
+    plt.ylabel('Frequency')
+    plt.show()
+    save_fn = os.path.join('./', 'avg_mean_log_histogram.png')  # Define your save path and filename
+    plt.savefig(save_fn, bbox_inches='tight') # Save the figure to your designated directory
 
 def calculate_spearmans_correlation(arr1, arr2):
     """
@@ -257,3 +276,4 @@ with open('rebecca_timestamps.txt', 'r') as f:
 with open('daisy_scene_changes.txt', 'r') as f:
     my_scene_changes_txt = f.read()
 plot_timestamp_data(my_timestamps_txt, friend_timestamps_txt, label_1="Daisy", label_2="Rebecca", scene_changes_txt=my_scene_changes_txt)
+
