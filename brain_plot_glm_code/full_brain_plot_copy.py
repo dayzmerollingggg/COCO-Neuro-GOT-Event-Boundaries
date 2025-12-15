@@ -247,10 +247,6 @@ def load_regressor_data(base_name, shift_type, regressor_type='convolved'):
         loader = lambda path: pd.read_csv(path, index_col=None) # Load CSV as DataFrame
     else:
         raise ValueError("regressor_type must be 'convolved' or 'raw'.")
-
-    # 3. Define the specific file names
-    bool_name = f'{dir_name}_bool{ext}'
-    amp_name = f'{dir_name}_amp{ext}'
     
     if regressor_type == 'raw':
         bool_name = f'{dir_name}_bool_regressor_raw.csv'
@@ -345,7 +341,7 @@ if __name__ == "__main__":
     #UPDATE contrast names based on the new regressors    
 
     jobs = []
-
+    
     # Iterate through all combinations of SHIFT_TYPES and AMPLITUDE_TYPES
     for shift_type in SHIFT_TYPES:
         for amp_type in AMPLITUDE_TYPES:
