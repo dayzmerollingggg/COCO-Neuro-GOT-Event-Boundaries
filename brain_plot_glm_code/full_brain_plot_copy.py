@@ -23,13 +23,7 @@ FMRI_DATA_DIR = os.path.join(PROJ_DIR, 'data') #correct
 DATA_DIR = os.path.join(PROJ_DIR, 'test/brain_plot_data_output') #correct
 REGRESSORS_DIR = os.path.join(DATA_DIR, 'regressor_output') #correct
 
-#OUTPUT_DIR
-GLM_DIR = os.path.join(DATA_DIR, 'glm/compare_contrasts')
-AVERAGED_DATA_DIR = os.path.join(DATA_DIR, 'averaged_data/compare_contrasts')
-FIG_DIR = os.path.join(DATA_DIR, 'figures/compare_contrasts')
-os.makedirs(AVERAGED_DATA_DIR, exist_ok=True)
-os.makedirs(GLM_DIR, exist_ok=True)
-os.makedirs(FIG_DIR, exist_ok=True)
+
 
 
 def legendre_polynomials(n_tp, poly_order=2):
@@ -53,41 +47,44 @@ def get_got_nuisance(subj):
     confounds_file = os.path.join(fmriprep_dir, confounds_fn)
     raw_confounds_df = pd.read_csv(confounds_file, sep='\t')
     # Load audio and hsv and motion energy regressors
-    audio_data = pd.read_csv("audio_pitch_output.csv")
-    hsv_data = pd.read_csv("hsv_output.csv")
-    motion_data = pd.read_csv("motion_energy_output.csv")
+    low_lvl_dir = os.path.join(LOW_LVL_DIR)
+    audio_fn = f'audio_pitch_output.csv'
+    hsv_fn = f'hsv_output.csv'
+    motion_fn = f'motion_energy_output.csv'
+    audio_data = pd.read_csv(os.path.join(low_lvl_dir, audio_fn))[:-1]
+    hsv_data = pd.read_csv(os.path.join(low_lvl_dir, hsv_fn))[:-1]
+    motion_data = pd.read_csv(os.path.join(low_lvl_dir, motion_fn))[:-1]
     audio_regressors = audio_data[[ 'Average_Pitch_Hz','Average_Amplitude']].values
     hsv_regressors = hsv_data[[ 'Average_H','Average_S','Average_V']].values
     motion_regressors = motion_data[['Average_Motion_Energy']].values
     # Replace first nan in 'framewise_displacement with 0' for alignment
     raw_confounds = np.nan_to_num(raw_confounds_df[columns].values)
-    print("raw confounds: " + str(raw_confounds.shape))
     raw_confounds_with_low_level = np.concatenate((audio_regressors,hsv_regressors,motion_regressors, raw_confounds), axis=1)
     # Zscore confounds, fmriprep recommendation
     confounds = np.nan_to_num(zscore(raw_confounds_with_low_level, axis=0))
-    print("confounds model: " + str(confounds.shape))
+    #print("confounds model: " + str(confounds.shape))
     
     # Add drift regressors
     poly = legendre_polynomials(n_tp=confounds.shape[0])
-    print("drift model: " + str(poly.shape))
-    return np.concatenate((confounds, poly), axis=1) # shape of (126, 15)
+    #print("drift model: " + str(poly.shape))
+    return np.concatenate((confounds, poly), axis=1) 
 
 
 
 
 def run_glm_manual(subj, hemi, regressor_cam, regressor_scene,regressor_medium):
     nuisance = get_got_nuisance(subj)
-    print("nuisance shape: " + str(nuisance.shape))
+    #print("nuisance shape: " + str(nuisance.shape))
     #camera regressor only
     regressor_cam_full = np.hstack([regressor_cam, nuisance])
-    print("regressor cam full shape: " + str(regressor_cam_full.shape))
+    #print("regressor cam full shape: " + str(regressor_cam_full.shape))
     #scene regressor only
     regressor_scene_full = np.hstack([regressor_scene, nuisance])
-    print("regressor scene full shape: " + str(regressor_scene_full.shape))
+    #print("regressor scene full shape: " + str(regressor_scene_full.shape))
     regressor_medium_full = np.hstack([regressor_medium, nuisance])
     #full regressor
     regressor = np.hstack([regressor_cam, regressor_scene,regressor_medium_full])
-    print("full regressor shape: " + str(regressor.shape))  
+    #print("full regressor shape: " + str(regressor.shape))  
     #data matrix
     mask = load_mask(hemi)
     denoised_dir = os.path.join(FMRI_DATA_DIR, f'denoised/{subj}')
@@ -197,7 +194,7 @@ def average_glm(contrast_names):
             out_fn = f'{group}_{contrast}.npy'
             np.save(os.path.join(AVERAGED_DATA_DIR, out_fn), group_average)
 
-def plot_brains(plot_data, titles, vmax=3, cbar_label='t', plot_cbar=True, plot_titles=False):
+def plot_brains(plot_data, titles, vmax=0.5, cbar_label='t', plot_cbar=True, plot_titles=False):
     vmin = -1 * vmax
     fig, axs = plt.subplots(nrows=1, ncols=len(plot_data), figsize=(12, 8))
     for i, title in enumerate(titles):
@@ -221,104 +218,7 @@ def plot_brains(plot_data, titles, vmax=3, cbar_label='t', plot_cbar=True, plot_
 
     return fig, axs
  
-def load_regressor_data(base_name, shift_type, regressor_type='convolved'):
-    """
-    Finds and loads a specific regressor file (convolved NPY or raw CSV)
-    for a given data group within the 'regressor_output' folder.
 
-    Parameters:
-    - base_name (str): The initial name (e.g., 'camera_cuts').
-    - shift_type (str): The shift category ('base', 'shift_2s', or 'shift_4s').
-    - regressor_type (str): 'convolved' (loads .npy) or 'raw' (loads .csv).
-
-    Returns:
-    - dict: A dictionary containing the loaded bool and amp data.
-    """
-    # 1. Construct the folder name
-    dir_name = f'{base_name}_{shift_type}'
-    group_dir = os.path.join('regressor_output', dir_name)
-    print(f"Looking in directory: {group_dir}")
-    # 2. Define file extensions and loading functions
-    if regressor_type == 'convolved':
-        ext = '.npy'
-        loader = lambda path: np.load(path).flatten() # Load NPY and flatten to a 1D array
-    elif regressor_type == 'raw':
-        ext = '_regressor_raw.csv'
-        loader = lambda path: pd.read_csv(path, index_col=None) # Load CSV as DataFrame
-    else:
-        raise ValueError("regressor_type must be 'convolved' or 'raw'.")
-    
-    if regressor_type == 'raw':
-        bool_name = f'{dir_name}_bool_regressor_raw.csv'
-        amp_name = f'{dir_name}_amp_regressor_raw.csv'
-    if regressor_type == 'convolved':
-        bool_name = f'{dir_name}_bool_convolved.csv'
-        amp_name = f'{dir_name}_amp_convolved.csv'
-    
-    # 4. Construct the full file paths
-    bool_path = os.path.join(group_dir, bool_name)
-    amp_path = os.path.join(group_dir, amp_name)
-
-    # 5. Load the data
-    data = {}
-    print(f"Attempting to load data from: {group_dir}")
-
-    # Load Boolean data
-    if os.path.exists(bool_path):
-        data['bool'] = loader(bool_path)
-        print(f"  Loaded: {os.path.basename(bool_path)}")
-    else:
-        print(f"  File not found: {bool_path}")
-
-    # Load Amplitude data
-    if os.path.exists(amp_path):
-        data['amp'] = loader(amp_path)
-        print(f"  Loaded: {os.path.basename(amp_path)}")
-    else:
-        print(f"  File not found: {amp_path}")
-
-    return data
-def average_glm_full(full_contrast_names):
-    # ... (groups, subjects, hemis setup remains the same) ...
-    groups = ['control', 'DP']
-    control_subjects = get_got_subjects('control')
-    dp_subjects = get_got_subjects('DP')
-    hemis = ['hemi-L', 'hemi-R']
-    # Loop through the new, fully specified contrast names
-    for full_contrast_name in full_contrast_names:
-        
-        # 1. Parse the run_name from the start of the full name (e.g., 'shift_2s_bool')
-        run_name_parts = full_contrast_name.split('_')
-        # Assuming the run_name is the first three parts, and the contrast name is the rest
-        run_name = '_'.join(run_name_parts[:3])
-        
-        # 2. Parse the CORE contrast name from the end of the full name (e.g., 'camera_vs_scene')
-        # The core contrast name is the part *after* the run_name
-        core_contrast_name = '_'.join(run_name_parts[3:]) 
-        contrast_index = CONTRAST_INDEX_MAP[core_contrast_name]
-        for group in groups:
-            subjects = get_got_subjects(group)
-            group_data = []
-            for subj in subjects:
-                brain_data = []
-                for hemi in hemis:
-                    # The correct file name now includes the run_name
-                    fn = f'{subj}_{hemi}_{run_name}.npz' 
-                    file_path = os.path.join(GLM_DIR, fn)
-                    
-                    if os.path.exists(file_path):
-                        # Use the correct contrast index here
-                        # Assuming contrast_index is derived from full_contrast_name
-                        data = np.load(file_path)['ts'][contrast_index, :] 
-                        brain_data.append(data)
-            # ... np.save(os.path.join(AVERAGED_DATA_DIR, out_fn), group_average)
-            group_array = np.dstack(brain_data)
-            #print(group_array.shape)
-            group_average = np.mean(group_array, axis=2)
-            #print(group_average.shape)
-
-            out_fn = f'{group}_{full_contrast_name}.npy'
-            np.save(os.path.join(AVERAGED_DATA_DIR, out_fn), group_average)
 
 CONTRASTS = [
     'camera_cuts_baseline',
@@ -330,74 +230,64 @@ CONTRASTS = [
     'scene_cuts_vs_zero',
     'medium_length_vs_zero'
 ]
-CONTRAST_INDEX_MAP = {name: index for index, name in enumerate(CONTRASTS)}
+#OUTPUT_DIR
+shift_type = 'base'
+regressor_type = 'regressor_raw'
+amplitude_type = 'bool'
+file_change = f'{shift_type}_{amplitude_type}_{regressor_type}'
+GLM_DIR = os.path.join(DATA_DIR, f'glm/{file_change}')
+AVERAGED_DATA_DIR = os.path.join(DATA_DIR, f'averaged_data/{file_change}')
+FIG_DIR = os.path.join(DATA_DIR, f'figures/{file_change}')
+os.makedirs(AVERAGED_DATA_DIR, exist_ok=True)
+os.makedirs(GLM_DIR, exist_ok=True)
+os.makedirs(FIG_DIR, exist_ok=True)
+#CONTRAST_INDEX_MAP = {name: index for index, name in enumerate(CONTRASTS)}
 if __name__ == "__main__":
+    #use this as key to create different runs with different regressors
     hemis = ['hemi-L', 'hemi-R']
     subjects = get_got_subjects()
     BASE_NAMES = ['camera_cuts', 'scene_cuts', 'medium_length']
     SHIFT_TYPES = ['base', 'shift_2s', 'shift_4s']
-    REGRESSOR_TYPES = ['raw', 'convolved']
+    REGRESSOR_TYPES = ['regressor_raw', 'convolved']
     AMPLITUDE_TYPES = ['bool', 'amp']
     #UPDATE contrast names based on the new regressors    
 
     jobs = []
-    
-    # Iterate through all combinations of SHIFT_TYPES and AMPLITUDE_TYPES
-    for shift_type in SHIFT_TYPES:
-        for amp_type in AMPLITUDE_TYPES:
-            for regressor_type in REGRESSOR_TYPES:
-                # 1. Define the unique run name (e.g., 'shift_2s_bool')
-                run_name = f'{shift_type}_{amp_type}_{regressor_type}'
-                print(f"\nSetting up GLM run: {run_name} ({regressor_type} data)")
+    if regressor_type == 'regressor_raw':
+        CAM_REGRESSOR_CONVOLVED_FILE = f'camera_cuts_{shift_type}_{amplitude_type}_{regressor_type}.csv'
+        SCENE_REGRESSOR_CONVOLVED_FILE = f'scene_cuts_{shift_type}_{amplitude_type}_{regressor_type}.csv'
+        MEDIUM_REGRESSOR_CONVOLVED_FILE = f'medium_length_{shift_type}_{amplitude_type}_{regressor_type}.csv'
 
-                # 2. Load the three specific regressors for this run configuration
-                # Note: load_regressor_data returns a dictionary {'bool': data_bool, 'amp': data_amp}
-                # We select the correct 'amp_type' data from each base name.
-                
-                # --- Load Camera Regressor ---
-                cam_data_dict = load_regressor_data('camera_cuts', shift_type, regressor_type)
-                regressor_cam = cam_data_dict.get(amp_type)
-                if regressor_cam is None: continue # Skip this run if data is missing
-                
-                # --- Load Scene Regressor ---
-                scene_data_dict = load_regressor_data('scene_cuts', shift_type, regressor_type)
-                regressor_scene = scene_data_dict.get(amp_type)
-                if regressor_scene is None: continue
-                
-                # --- Load Medium Regressor ---
-                medium_data_dict = load_regressor_data('medium_length', shift_type, regressor_type)
-                regressor_medium = medium_data_dict.get(amp_type)
-                if regressor_medium is None: continue
+        # Construct the full paths
+        cam_regressors_fn = os.path.join(REGRESSORS_DIR, f'camera_cuts_{shift_type}',CAM_REGRESSOR_CONVOLVED_FILE)
+        scene_regressors_fn = os.path.join(REGRESSORS_DIR, f'scene_cuts_{shift_type}',SCENE_REGRESSOR_CONVOLVED_FILE)
+        medium_regressors_fn = os.path.join(REGRESSORS_DIR, f'medium_length_{shift_type}',MEDIUM_REGRESSOR_CONVOLVED_FILE)
+        # Load the data into the specific variables for csv raw
+        regressor_cam = pd.read_csv(cam_regressors_fn, index_col=0)
+        regressor_scene = pd.read_csv(scene_regressors_fn, index_col=0)
+        regressor_medium = pd.read_csv(medium_regressors_fn, index_col=0)
+    else:
+    #load the data into the specific variables for npy convolved
+        CAM_REGRESSOR_CONVOLVED_FILE = f'camera_cuts_{shift_type}_{amplitude_type}_{regressor_type}.npy'
+        SCENE_REGRESSOR_CONVOLVED_FILE = f'scene_cuts_{shift_type}_{amplitude_type}_{regressor_type}.npy'
+        MEDIUM_REGRESSOR_CONVOLVED_FILE = f'medium_length_{shift_type}_{amplitude_type}_{regressor_type}.npy'
 
-                # --- 3. Run the GLM for all subjects with this specific regressor set ---
-                for subj in subjects:
-                    for hemi in hemis:
-                        jobs.append(delayed(pipe_wrapper)(
-                            subj, hemi, 
-                            regressor_cam, regressor_scene, regressor_medium, 
-                            run_name # Pass the run name for unique file saving
-                        ))
-
-    print(f"\n--- Total GLM Jobs Created: {len(jobs)} ---")
+        # Construct the full paths
+        cam_regressors_fn = os.path.join(REGRESSORS_DIR, f'camera_cuts_{shift_type}',CAM_REGRESSOR_CONVOLVED_FILE)
+        scene_regressors_fn = os.path.join(REGRESSORS_DIR, f'scene_cuts_{shift_type}',SCENE_REGRESSOR_CONVOLVED_FILE)
+        medium_regressors_fn = os.path.join(REGRESSORS_DIR, f'medium_length_{shift_type}',MEDIUM_REGRESSOR_CONVOLVED_FILE)
+        regressor_cam = np.load(cam_regressors_fn).flatten()
+        regressor_scene = np.load(scene_regressors_fn).flatten()
+        regressor_medium = np.load(medium_regressors_fn).flatten()
+    for subj in subjects:
+        for hemi in hemis:
+            jobs.append(delayed(pipe_wrapper)(subj, hemi,regressor_cam, regressor_scene,regressor_medium))
     
     # --- 4. Run Parallel Processing ---
     with parallel_backend("loky", inner_max_num_threads=1):
         Parallel(n_jobs=4, verbose=2)(jobs)
-    
-    # --- 5. Average GLM Results ---
-    # NOTE: The average_glm function MUST be updated to loop through 
-    # the new unique run names created above. (See next section)
-    # The contrast names for average_glm now need to be fully specified 
-    # (e.g., 'shift_2s_bool_camera_vs_scene').
-    
-    all_full_contrast_names = []
-    for shift_type in SHIFT_TYPES:
-        for amp_type in AMPLITUDE_TYPES:
-            run_name = f'{shift_type}_{amp_type}'
-            for contrast_base in CONTRASTS:
-                all_full_contrast_names.append(f'{run_name}_{contrast_base}')
                 
-    average_glm_full(all_full_contrast_names)
+    average_glm(CONTRASTS)
 
     # Set vars for reference
     groups = ['control', 'DP']
@@ -408,8 +298,8 @@ if __name__ == "__main__":
     ]
     # Plot perceptual features group average t-maps
 
-    for i, contrast in enumerate(all_full_contrast_names):
-        print("inside")
+    for i, contrast in enumerate(CONTRASTS):
+        #print("inside")
         plot_data = []
         for group in groups:
             fn = f'{group}_{contrast}.npy'

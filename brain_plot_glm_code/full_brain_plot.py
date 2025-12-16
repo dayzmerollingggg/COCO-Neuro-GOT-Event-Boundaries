@@ -82,15 +82,18 @@ def get_got_nuisance(subj):
     confounds_file = os.path.join(fmriprep_dir, confounds_fn)
     raw_confounds_df = pd.read_csv(confounds_file, sep='\t')
     # Load audio and hsv and motion energy regressors
-    audio_data = pd.read_csv("audio_pitch_output.csv")
-    hsv_data = pd.read_csv("hsv_output.csv")
-    motion_data = pd.read_csv("motion_energy_output.csv")
+    low_lvl_dir = os.path.join(LOW_LVL_DIR)
+    audio_fn = f'audio_pitch_output.csv'
+    hsv_fn = f'hsv_output.csv'
+    motion_fn = f'motion_energy_output.csv'
+    audio_data = pd.read_csv(os.path.join(low_lvl_dir, audio_fn))[:-1]
+    hsv_data = pd.read_csv(os.path.join(low_lvl_dir, hsv_fn))[:-1]
+    motion_data = pd.read_csv(os.path.join(low_lvl_dir, motion_fn))[:-1]
     audio_regressors = audio_data[[ 'Average_Pitch_Hz','Average_Amplitude']].values
     hsv_regressors = hsv_data[[ 'Average_H','Average_S','Average_V']].values
     motion_regressors = motion_data[['Average_Motion_Energy']].values
     # Replace first nan in 'framewise_displacement with 0' for alignment
     raw_confounds = np.nan_to_num(raw_confounds_df[columns].values)
-    print("raw confounds: " + str(raw_confounds.shape))
     raw_confounds_with_low_level = np.concatenate((audio_regressors,hsv_regressors,motion_regressors, raw_confounds), axis=1)
     # Zscore confounds, fmriprep recommendation
     confounds = np.nan_to_num(zscore(raw_confounds_with_low_level, axis=0))
@@ -99,7 +102,7 @@ def get_got_nuisance(subj):
     # Add drift regressors
     poly = legendre_polynomials(n_tp=confounds.shape[0])
     print("drift model: " + str(poly.shape))
-    return np.concatenate((confounds, poly), axis=1) # shape of (126, 15)
+    return np.concatenate((confounds, poly), axis=1) 
 
 
 
@@ -226,7 +229,7 @@ def average_glm(contrast_names):
             out_fn = f'{group}_{contrast}.npy'
             np.save(os.path.join(AVERAGED_DATA_DIR, out_fn), group_average)
 
-def plot_brains(plot_data, titles, vmax=3, cbar_label='t', plot_cbar=True, plot_titles=False):
+def plot_brains(plot_data, titles, vmax=1, cbar_label='t', plot_cbar=True, plot_titles=False):
     vmin = -1 * vmax
     fig, axs = plt.subplots(nrows=1, ncols=len(plot_data), figsize=(12, 8))
     for i, title in enumerate(titles):
@@ -249,9 +252,9 @@ def plot_brains(plot_data, titles, vmax=3, cbar_label='t', plot_cbar=True, plot_
         cbar.ax.xaxis.label.set_fontsize(22) # cbar title fontsize
 
     return fig, axs
- 
+REGRESSORS_DIR_NEW = os.path.join(DATA_DIR, 'regressor_output') #correct
 if __name__ == "__main__":
-    list_all_files(REGRESSORS_DIR)
+    list_all_files(REGRESSORS_DIR_NEW)
     hemis = ['hemi-L', 'hemi-R']
     subjects = get_got_subjects()
     #UPDATE contrast names based on the new regressors    
@@ -259,13 +262,14 @@ if __name__ == "__main__":
     jobs = []
 
     #****normal****
-    CAM_REGRESSOR_CONVOLVED_FILE = 'camera_cuts_regressors.csv'
-    SCENE_REGRESSOR_CONVOLVED_FILE = 'scene_cuts_regressors.csv'
-    MEDIUM_REGRESSOR_CONVOLVED_FILE = 'scene_cuts_regressors.csv'
+    CAM_REGRESSOR_CONVOLVED_FILE = 'camera_cuts_base_bool_regressor_raw.csv'
+    SCENE_REGRESSOR_CONVOLVED_FILE = 'scene_cuts_base_bool_regressor_raw.csv'
+    MEDIUM_REGRESSOR_CONVOLVED_FILE = 'medium_length_base_bool_regressor_raw.csv'
+
     # Construct the full paths
-    cam_regressors_fn = os.path.join(REGRESSORS_DIR, CAM_REGRESSOR_CONVOLVED_FILE)
-    scene_regressors_fn = os.path.join(REGRESSORS_DIR, SCENE_REGRESSOR_CONVOLVED_FILE)
-    medium_regressors_fn = os.path.join(REGRESSORS_DIR, MEDIUM_REGRESSOR_CONVOLVED_FILE)
+    cam_regressors_fn = os.path.join(REGRESSORS_DIR_NEW, 'camera_cuts_base',CAM_REGRESSOR_CONVOLVED_FILE)
+    scene_regressors_fn = os.path.join(REGRESSORS_DIR_NEW, 'scene_cuts_base',SCENE_REGRESSOR_CONVOLVED_FILE)
+    medium_regressors_fn = os.path.join(REGRESSORS_DIR_NEW, 'medium_length_base',MEDIUM_REGRESSOR_CONVOLVED_FILE)
     # Load the data into the specific variables
     regressor_cam = pd.read_csv(cam_regressors_fn, index_col=0)
     regressor_scene = pd.read_csv(scene_regressors_fn, index_col=0)
