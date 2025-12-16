@@ -1,4 +1,5 @@
 import matplotlib.pyplot as plt
+import os
 import numpy as np
 import pandas as pd
 from scipy.stats import zscore
@@ -35,31 +36,41 @@ def regressorbool(bool_values,file_name,duration_len):
     # Compute a convolved regressor
     regressor_2, _ = compute_regressor(exp_condition=exp_condition_2, frame_times=frame_times, hrf_model='spm')
     single_array = regressor_2.flatten()    
-    # fig, ax = plt.subplots(figsize=(12, 4))
-    # ax.plot(frame_times, single_array)
-    # ax.set_ylabel('amplitude')
-    # ax.set_xlabel('Time (s)')
-    # ax.set_title('Regressor bool '+file_name)
-    # plt.show()
+    fig, ax = plt.subplots(figsize=(12, 4))
+    ax.plot(frame_times, single_array)
+    ax.set_ylabel('amplitude')
+    ax.set_xlabel('Time (s)')
+    ax.set_title('Nilearn Regressor bool '+file_name)
+    plt.show()
+    plt.savefig(f'./{file_name}/nilearn_regressor_{file_name}.png')
+    plt.close()
     convolved_camera = fftconvolve(single_array, hrf)[:len(single_array)]
-    # fig, ax_mag = plt.subplots(figsize=(12, 4))
-    # # Plot the convolved signal on the bottom subplot
-    # # Since we truncated 'convolved' to the length of 'regressor', the x-axis is simple
-    # ax_mag.plot(convolved_camera)
-    # ax_mag.set_title('Convolved '+file_name+ ' Signal')
-    # ax_mag.set_xlabel('Time 2s intervals')
-    # ax_mag.set_ylabel('Amplitude')
-    # plt.show()
-    # zscore_reg = zscore(regressor_2)
-    # # Plot the output for reference - it should be the same as above
-    # fig, ax = plt.subplots(figsize=(12, 4))
-    # ax.plot(frame_times, zscore_reg)
-    # ax.set_ylabel('amplitude')
-    # ax.set_xlabel('Time (s)')
-    # ax.set_title('ZScore bool '+file_name)
-    # plt.show()
+    fig, ax_mag = plt.subplots(figsize=(12, 4))
+    # Plot the convolved signal on the bottom subplot
+    # Since we truncated 'convolved' to the length of 'regressor', the x-axis is simple
+    ax_mag.plot(convolved_camera)
+    ax_mag.set_title('FFTConvolved '+file_name+ ' Signal')
+    ax_mag.set_xlabel('Time 2s intervals')
+    ax_mag.set_ylabel('Amplitude')
+    plt.show()
+    filename = './fftconvolved_bool_'+file_name+'.png'
+    filepath = os.path.join(f'{file_name}', filename)
+    plt.savefig(filepath)
+    plt.close()
+    zscore_reg = zscore(regressor_2)
+    # Plot the output for reference - it should be the same as above
+    fig, ax = plt.subplots(figsize=(12, 4))
+    ax.plot(frame_times, zscore_reg)
+    ax.set_ylabel('amplitude')
+    ax.set_xlabel('Time (s)')
+    ax.set_title('ZScore bool '+file_name)
+    plt.show()
+    filename = './zscore_bool_'+file_name+'.png'
+    filepath = os.path.join(f'{file_name}', filename)
+    plt.savefig(filepath)
+    plt.close()
     regressor_df = pd.DataFrame(data=regressor_2, columns=['presence/absence of '+file_name])
-    regressor_df.to_csv(file_name+'_regressors.csv')
+    regressor_df.to_csv(f'./{file_name}/regressors_{file_name}.csv')
 
     # timing_data = pd.DataFrame(data=exp_condition_2, index=['onset', 'duration', 'amplitude'])
     # timing_df = timing_data.T
@@ -100,12 +111,16 @@ def regressoramp(count_values,file_name,duration_len):
     ax.set_xlabel('Time (s)')
     ax.set_title('Regressor amplitude '+file_name)
     plt.show()
+    filename = './amplitude_regressor_'+file_name+'.png'
+    filepath = os.path.join(f'{file_name}', filename)
+    plt.savefig(filepath)
+    plt.close()
     regressor_df = pd.DataFrame(data=regressor_2, columns=['presence/absence of '+file_name])
-    regressor_df.to_csv('./count_regressor_'+file_name+'.csv')
+    regressor_df.to_csv(f'./{file_name}/count_regressor_'+file_name+'.csv')
 
     timing_data = pd.DataFrame(data=exp_condition_2, index=['onset', 'duration', 'amplitude'])
     timing_df = timing_data.T
-    timing_df.to_csv('./count_timing_'+file_name+'.csv')
+    timing_df.to_csv(f'./{file_name}/count_timing_'+file_name+'.csv')
     # Check if outputs are the same
     #print(np.array_equal(regressor_1, regressor_2)) # should raise error if outputs are different
 
@@ -162,8 +177,61 @@ def define_timestamp_data(timestamps_txt,file_name,duration_len):
     
     # Save the DataFrame to CSV
     # index=False prevents writing the internal pandas index (0, 1, 2...) to the CSV
-    df.to_csv(output, index=False)
+    tr = 2 # fmri data has a TR of 2s
+    n_scans = 389 # 389 timepoints in fmri data (389*2=778s)
+    frame_times = np.arange(n_scans) * tr+1
+    df.to_csv(f'./{file_name}/{output}', index=False)
+    x_interval_index = np.arange(num_intervals)
+    
+    plot_data = pd.DataFrame({
+        'Interval_Index': x_interval_index,
+        'Boolean_Value': boolean_values,
+        'Count_Value': count_values
+    })
+# --- 4. Plot and Save Individual Images ---
+    step_size = 30
+    max_index = num_intervals
+    tick_indices = np.arange(0, max_index, step_size)
+    if max_index not in tick_indices:
+        tick_indices = np.append(tick_indices, max_index) 
 
+    tick_labels = [f'{int(i)}' for i in tick_indices] # Label is the interval index itself
+
+    os.makedirs(f'{file_name}', exist_ok=True)
+    # Plot 1: Boolean Values (Activity Presence)
+    plt.figure(figsize=(15, 3))
+    # We plot against the index (0 to 389)
+    plt.step(plot_data['Interval_Index'], plot_data['Boolean_Value'], where='post', color='blue')
+    plt.title(f'Boolean Value Timeline (X-axis is {interval_duration_seconds}-second Interval Index)')
+    plt.xlabel(f'Interval Index (Each unit = {interval_duration_seconds} seconds)')
+    plt.ylabel('Boolean Value (0 or 1)')
+    
+    # Apply custom ticks to make the timeline readable
+    plt.xticks(tick_indices, tick_labels)
+    plt.yticks([0, 1])
+    plt.grid(axis='x', linestyle='--')
+    plt.xlim(0, max_index)
+    bool_filename = f"{file_name}_boolean_interval_index_timeline.png"
+    bool_filepath = os.path.join(f'{file_name}', bool_filename)
+    plt.savefig(bool_filepath)
+    plt.close()
+
+    # Plot 2: Count Values (Event Frequency)
+    plt.figure(figsize=(15, 3))
+    # We plot against the index (0 to 389)
+    plt.step(plot_data['Interval_Index'], plot_data['Count_Value'], where='post', color='red')
+    plt.title(f'Count Value Timeline (X-axis is {interval_duration_seconds}-second Interval Index)')
+    plt.xlabel(f'Interval Index (Each unit = {interval_duration_seconds} seconds)')
+    plt.ylabel('Count Value (Events)')
+    
+    # Apply custom ticks to make the timeline readable
+    plt.xticks(tick_indices, tick_labels)
+    plt.grid(axis='x', linestyle='--')
+    plt.xlim(0, max_index)
+    count_filename = f"{file_name}_count_interval_index_timeline.png"
+    count_filepath = os.path.join(f'{file_name}', count_filename)
+    plt.savefig(count_filepath)
+    plt.close()
 
 
 with open('daisy_timestamps.txt', 'r') as f:
@@ -182,7 +250,7 @@ define_timestamp_data(medium_txt,'medium_length',2)
 
 with open('delayed_camera_cuts.txt', 'r') as f:
     delayed_camera_txt = f.read()
-with open('delayed_scene_changes.txt', 'r') as f:
+with open('delayed_scene_cuts.txt', 'r') as f:
     delayed_scene_txt = f.read()
 
 with open('delayed_medium_length.txt', 'r') as f:

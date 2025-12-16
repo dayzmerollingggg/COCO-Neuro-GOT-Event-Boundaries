@@ -37,6 +37,7 @@ def regressor(count_values,file_name,duration_len):
     ax.set_xlabel('Time (s)')
     ax.set_title('Regressor - presence/absence of '+file_name)
     plt.show()
+    plt.savefig('./example_regressor_'+file_name+'.png')
     regressor_df = pd.DataFrame(data=regressor_2, columns=['presence/absence of speaking'])
     regressor_df.to_csv('./example_regressor_'+file_name+'.csv')
 
