@@ -59,9 +59,10 @@ def get_got_nuisance(subj):
     motion_regressors = motion_data[['Average_Motion_Energy']].values
     # Replace first nan in 'framewise_displacement with 0' for alignment
     raw_confounds = np.nan_to_num(raw_confounds_df[columns].values)
-    raw_confounds_with_low_level = np.concatenate((audio_regressors,hsv_regressors,motion_regressors, raw_confounds), axis=1)
+    raw_confounds_with_low_level = np.concatenate((audio_regressors, hsv_regressors, motion_regressors,raw_confounds), axis=1) 
     # Zscore confounds, fmriprep recommendation
     confounds = np.nan_to_num(zscore(raw_confounds_with_low_level, axis=0))
+    #confounds = np.nan_to_num(zscore(raw_confounds, axis=0))
     #print("confounds model: " + str(confounds.shape))
     
     # Add drift regressors
@@ -157,15 +158,16 @@ def run_glm_manual(subj, hemi, regressor_cam, regressor_scene,regressor_medium):
 
     return np.array(ts), np.array(betas)
 
-def pipe_wrapper(subj, hemi, regressor_cam, regressor_scene, regressor_medium):
+
+def pipe_wrapper(glm_dir, subj, hemi, regressor_cam, regressor_scene, regressor_medium):
     # For parallel processsing
     #would i have to 
-    out_fn = os.path.join(GLM_DIR, f'{subj}_{hemi}.npz')
+    out_fn = os.path.join(glm_dir, f'{subj}_{hemi}.npz')
 
     betas, ts = run_glm_manual(subj, hemi, regressor_cam,regressor_scene,regressor_medium)
     np.savez(out_fn, betas=betas, ts=ts)
     
-def average_glm(contrast_names):
+def average_glm(data_dir, glm_dir, contrast_names):
     groups = ['control', 'DP']
     control_subjects = get_got_subjects('control')
     dp_subjects = get_got_subjects('DP')
@@ -181,7 +183,7 @@ def average_glm(contrast_names):
                     fn = f'{subj}_{hemi}.npz'
                     # data = np.load(os.path.join(GLM_DIR, fn))['ts']#[contrast_index, :]
                     # print(data.shape)
-                    data = np.load(os.path.join(GLM_DIR, fn))['ts'][contrast_index, :] #would this be ok with how many contrasts there are?
+                    data = np.load(os.path.join(glm_dir, fn))['ts'][contrast_index, :] #would this be ok with how many contrasts there are?
                     brain_data.append(data)
                 brain_array = np.concatenate(brain_data, axis=0) #originally axis=1
                 group_data.append(brain_array)
@@ -192,9 +194,9 @@ def average_glm(contrast_names):
             #print(group_average.shape)
 
             out_fn = f'{group}_{contrast}.npy'
-            np.save(os.path.join(AVERAGED_DATA_DIR, out_fn), group_average)
-
-def plot_brains(plot_data, titles, vmax=0.5, cbar_label='t', plot_cbar=True, plot_titles=False):
+            np.save(os.path.join(data_dir, out_fn), group_average)
+#'''
+def plot_brains(plot_data, titles, vmax=3, cbar_label='t', plot_cbar=True, plot_titles=False, ax=None):
     vmin = -1 * vmax
     fig, axs = plt.subplots(nrows=1, ncols=len(plot_data), figsize=(12, 8))
     for i, title in enumerate(titles):
@@ -217,41 +219,49 @@ def plot_brains(plot_data, titles, vmax=0.5, cbar_label='t', plot_cbar=True, plo
         cbar.ax.xaxis.label.set_fontsize(22) # cbar title fontsize
 
     return fig, axs
- 
+#'''
+'''
+def plot_brains(plot_data, titles, vmax=3, cbar_label='t', plot_cbar=True, plot_titles=False, axs=None):
+    vmin = -1 * vmax
+    
+    # If no axes are provided, create a standalone figure as before
+    if axs is None:
+        fig, axs = plt.subplots(nrows=1, ncols=len(plot_data), figsize=(12, 8))
+    else:
+        fig = axs[0].get_figure()
 
+    for i, title in enumerate(titles):
+        ax = axs[i]
+        img = brain_plot(plot_data[i], vmin=vmin, vmax=vmax, cmap='seismic')
+        ax.imshow(img)
+        ax.axis('off')
+        if plot_titles:
+            ax.set_title(title, fontsize=20) # Slightly smaller for grid layout
 
-CONTRASTS = [
-    'camera_cuts_baseline',
-    'scene_cuts_baseline',
-    'medium_length_baseline',
-    'camera_vs_scene',
-    'scene_vs_camera',
-    'camera_cuts_vs_zero',
-    'scene_cuts_vs_zero',
-    'medium_length_vs_zero'
-]
-#OUTPUT_DIR
-shift_type = 'base'
-regressor_type = 'regressor_raw'
-amplitude_type = 'bool'
-file_change = f'{shift_type}_{amplitude_type}_{regressor_type}'
-GLM_DIR = os.path.join(DATA_DIR, f'glm/{file_change}')
-AVERAGED_DATA_DIR = os.path.join(DATA_DIR, f'averaged_data/{file_change}')
-FIG_DIR = os.path.join(DATA_DIR, f'figures/{file_change}')
-os.makedirs(AVERAGED_DATA_DIR, exist_ok=True)
-os.makedirs(GLM_DIR, exist_ok=True)
-os.makedirs(FIG_DIR, exist_ok=True)
-#CONTRAST_INDEX_MAP = {name: index for index, name in enumerate(CONTRASTS)}
-if __name__ == "__main__":
-    #use this as key to create different runs with different regressors
-    hemis = ['hemi-L', 'hemi-R']
-    subjects = get_got_subjects()
-    BASE_NAMES = ['camera_cuts', 'scene_cuts', 'medium_length']
-    SHIFT_TYPES = ['base', 'shift_2s', 'shift_4s']
-    REGRESSOR_TYPES = ['regressor_raw', 'convolved']
-    AMPLITUDE_TYPES = ['bool', 'amp']
-    #UPDATE contrast names based on the new regressors    
+    # if plot_cbar:
+    #     norm = plt.Normalize(vmin, vmax)
+    #     # We attach the colorbar to the specific row's axes
+    #     cbar = fig.colorbar(
+    #         plt.cm.ScalarMappable(norm=norm, cmap='seismic'),
+    #         ax=axs,
+    #         orientation='horizontal',
+    #         shrink=0.7,
+    #         label=f'{cbar_label}-value',
+    #         pad=0.02
+    #     )
+    #     cbar.ax.tick_params(labelsize=12)
+    #     cbar.ax.xaxis.label.set_fontsize(14)
 
+    return fig, axs
+'''
+def run_regressors(shift_type='base', amplitude_type='bool', regressor_type='regressor_raw', additional_data=''):
+    file_change = f'{shift_type}_{amplitude_type}_{regressor_type}{additional_data}'
+    GLM_DIR = os.path.join(DATA_DIR, f'glm/{file_change}')
+    AVERAGED_DATA_DIR = os.path.join(DATA_DIR, f'averaged_data/{file_change}')
+    FIG_DIR = os.path.join(DATA_DIR, f'figures/{file_change}')
+    os.makedirs(AVERAGED_DATA_DIR, exist_ok=True)
+    os.makedirs(GLM_DIR, exist_ok=True)
+    os.makedirs(FIG_DIR, exist_ok=True)
     jobs = []
     if regressor_type == 'regressor_raw':
         CAM_REGRESSOR_CONVOLVED_FILE = f'camera_cuts_{shift_type}_{amplitude_type}_{regressor_type}.csv'
@@ -266,7 +276,9 @@ if __name__ == "__main__":
         regressor_cam = pd.read_csv(cam_regressors_fn, index_col=0)
         regressor_scene = pd.read_csv(scene_regressors_fn, index_col=0)
         regressor_medium = pd.read_csv(medium_regressors_fn, index_col=0)
-    else:
+        print ("regressor cam shape: " + str(regressor_cam.shape))
+        print ("regressor cam top ten" + str(regressor_cam.head(10)))
+    elif regressor_type == 'convolved':
     #load the data into the specific variables for npy convolved
         CAM_REGRESSOR_CONVOLVED_FILE = f'camera_cuts_{shift_type}_{amplitude_type}_{regressor_type}.npy'
         SCENE_REGRESSOR_CONVOLVED_FILE = f'scene_cuts_{shift_type}_{amplitude_type}_{regressor_type}.npy'
@@ -276,18 +288,21 @@ if __name__ == "__main__":
         cam_regressors_fn = os.path.join(REGRESSORS_DIR, f'camera_cuts_{shift_type}',CAM_REGRESSOR_CONVOLVED_FILE)
         scene_regressors_fn = os.path.join(REGRESSORS_DIR, f'scene_cuts_{shift_type}',SCENE_REGRESSOR_CONVOLVED_FILE)
         medium_regressors_fn = os.path.join(REGRESSORS_DIR, f'medium_length_{shift_type}',MEDIUM_REGRESSOR_CONVOLVED_FILE)
-        regressor_cam = np.load(cam_regressors_fn).flatten()
-        regressor_scene = np.load(scene_regressors_fn).flatten()
-        regressor_medium = np.load(medium_regressors_fn).flatten()
+        regressor_cam = np.load(cam_regressors_fn, allow_pickle=True).reshape(-1, 1)
+        regressor_scene = np.load(scene_regressors_fn, allow_pickle=True).reshape(-1, 1)
+        regressor_medium = np.load(medium_regressors_fn, allow_pickle=True).reshape(-1, 1)
+        print ("regressor cam shape: " + str(regressor_cam.shape))
     for subj in subjects:
         for hemi in hemis:
-            jobs.append(delayed(pipe_wrapper)(subj, hemi,regressor_cam, regressor_scene,regressor_medium))
+            jobs.append(delayed(pipe_wrapper)(GLM_DIR, subj, hemi,regressor_cam, regressor_scene,regressor_medium))
     
     # --- 4. Run Parallel Processing ---
     with parallel_backend("loky", inner_max_num_threads=1):
         Parallel(n_jobs=4, verbose=2)(jobs)
-                
-    average_glm(CONTRASTS)
+    plot_all_contrasts(AVERAGED_DATA_DIR, FIG_DIR, GLM_DIR, file_change)
+
+def plot_all_contrasts(data_dir, fig_dir, glm_dir, file_change):
+    average_glm(data_dir, glm_dir, CONTRASTS)
 
     # Set vars for reference
     groups = ['control', 'DP']
@@ -296,21 +311,107 @@ if __name__ == "__main__":
         'scene_cuts',
         'medium_length'
     ]
-    # Plot perceptual features group average t-maps
+    '''
+    num_contrasts = len(CONTRASTS)
+    num_groups = len(groups)
+
+    # Adjust figsize based on number of contrasts (width, height)
+    fig, big_axs = plt.subplots(nrows=num_contrasts, ncols=num_groups, 
+                                figsize=(14, 5 * num_contrasts))
+
+    # Global title for the whole file
+    fig.suptitle(file_change.replace('_', ' '), fontsize=32, y=0.98)
 
     for i, contrast in enumerate(CONTRASTS):
-        #print("inside")
+        # Determine the axes for the current row
+        # If only 1 contrast, big_axs is 1D; if multiple, it's 2D
+        current_row_axs = big_axs[i] if num_contrasts > 1 else big_axs
+        
         plot_data = []
         for group in groups:
             fn = f'{group}_{contrast}.npy'
-            group_data = np.load(os.path.join(AVERAGED_DATA_DIR, fn))
+            group_data = np.load(os.path.join(data_dir, fn))
+            plot_data.append(group_data[0, :])
+        
+        # Call the modified function passing the specific row axes
+        plot_brains(plot_data, groups, plot_titles=(i==0), axs=current_row_axs, plot_cbar=True)
+        
+        # Add the Contrast Name to the side of the row
+        current_row_axs[0].annotate(contrast, xy=(-0.1, 0.5), xycoords='axes fraction',
+                                    rotation=90, ha='center', va='center', 
+                                    fontsize=24, fontweight='bold')
+    cax = fig.add_axes([0.3, 0.94, 0.4, 0.02]) 
+    vmax = 3
+    norm = plt.Normalize(-vmax, vmax)
+    sm = plt.cm.ScalarMappable(norm=norm, cmap='seismic')
+    cbar = fig.colorbar(sm, cax=cax, orientation='horizontal')
+    cbar.set_label('t-value', fontsize=20, labelpad=10)
+    cbar.ax.tick_params(labelsize=14)
+    plt.tight_layout(rect=[0, 0, 1, 0.95]) # Adjust layout to make room for suptitle
+    save_fn = os.path.join(fig_dir, f'{file_change}_all_contrasts.png')
+    fig.savefig(save_fn, bbox_inches='tight', dpi=150)
+    plt.close()
+    '''
+    
+    for i, contrast in enumerate(CONTRASTS):
+        #print("inside")
+        max_val = 0
+        plot_data = []
+        for group in groups:
+            fn = f'{group}_{contrast}.npy'
+            group_data = np.load(os.path.join(data_dir, fn))
             contrast_data = group_data[0, :]
             plot_data.append(contrast_data)
-        
-        fig, axs = plot_brains(plot_data, groups, plot_titles=True)
+            max_val = max(max_val, max(contrast_data))
+
+        fig, axs = plot_brains(plot_data, groups, vmax=max_val, plot_titles=True)
         fig.suptitle(contrast, fontsize=32)
         plt.show()
-        save_fn = os.path.join(FIG_DIR, f'{contrast}.png')
+        save_fn = os.path.join(fig_dir, f'{contrast}_{file_change}.png')
         fig.savefig(save_fn, bbox_inches='tight') # Save the figure to your designated directory
         plt.close(fig) # Close the figure to free memory
+CONTRASTS = [
+    'camera_cuts_baseline',
+    'scene_cuts_baseline',
+    'medium_length_baseline',
+    'camera_vs_scene',
+    'scene_vs_camera',
+    'camera_cuts_vs_zero',
+    'scene_cuts_vs_zero',
+    'medium_length_vs_zero'
+]
+#CHANGE THIS
+# shift_type = 'base'
+# amplitude_type = 'bool'
+# regressor_type = 'convolved'
+# additional_data = 'combined'
+# file_change = f'{shift_type}_{amplitude_type}_{regressor_type}_{additional_data}'
+# GLM_DIR = os.path.join(DATA_DIR, f'glm/{file_change}')
+# AVERAGED_DATA_DIR = os.path.join(DATA_DIR, f'averaged_data/{file_change}')
+# FIG_DIR = os.path.join(DATA_DIR, f'figures/{file_change}')
+# os.makedirs(AVERAGED_DATA_DIR, exist_ok=True)
+# os.makedirs(GLM_DIR, exist_ok=True)
+# os.makedirs(FIG_DIR, exist_ok=True)
+#use this as key to create different runs with different regressors
+hemis = ['hemi-L', 'hemi-R']
+subjects = get_got_subjects()
+BASE_NAMES = ['camera_cuts', 'scene_cuts', 'medium_length', 'scene_cuts_inbetween', 'medium_cuts_inbetween']
+SHIFT_TYPES = ['base', 'shift_4s'] # 'shift_2s',
+REGRESSOR_TYPES = ['regressor_raw', 'convolved']
+AMPLITUDE_TYPES = ['bool', 'amp']
+#INBETWEEN = ['normal', 'inbetween']
+#CONTRAST_INDEX_MAP = {name: index for index, name in enumerate(CONTRASTS)}
+if __name__ == "__main__":
+    #run bool only
+    #run convolved base 
+    #run shifted raw
+    #plot_all_contrasts()
+    #additional data = '_'
+    run_regressors(shift_type='shift_4s', amplitude_type='bool', regressor_type='regressor_raw')
+    run_regressors(shift_type='base', amplitude_type='bool', regressor_type='convolved')
+    #plot_all_contrasts()
+    #run_regressors()
+    #UPDATE contrast names based on the new regressors    
+
+
        
